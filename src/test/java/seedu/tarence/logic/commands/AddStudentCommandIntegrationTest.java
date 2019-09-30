@@ -40,11 +40,14 @@ public class AddStudentCommandIntegrationTest {
         model.addModule(validModule);
         expectedModel.addModule(validModule);
         model.addTutorial(validTutorial);
+        model.addTutorialToModule(validTutorial);
         expectedModel.addTutorial(validTutorial);
+        expectedModel.addTutorialToModule(validTutorial);
 
         Student validStudent = new StudentBuilder().withModCode(validModCode)
             .withTutName(validTutName).build();
         expectedModel.addPerson(validStudent);
+        expectedModel.addStudentToTutorial(validStudent);
 
         assertCommandSuccess(new AddStudentCommand(validStudent), model,
                 String.format(AddStudentCommand.MESSAGE_SUCCESS, validStudent), expectedModel);
