@@ -27,6 +27,8 @@ import seedu.tarence.testutil.TutorialBuilder;
 
 public class AddStudentCommandTest {
 
+    public static final String VALID_MOD_CODE = "ES1601";
+    public static final String VALID_TUT_NAME = "T02";
     @Test
     public void constructor_nullPerson_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new AddStudentCommand(null));
@@ -34,12 +36,10 @@ public class AddStudentCommandTest {
 
     @Test
     public void execute_personAcceptedByModel_addSuccessful() throws Exception {
-        final String validModCode = "ES1601";
-        final String validTutName = "T02";
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
-        modelStub.addModule(new ModuleBuilder().withModCode(validModCode).build());
-        modelStub.addTutorial(new TutorialBuilder().withModCode(validModCode).withTutName(validTutName).build());
-        Student validStudent = new StudentBuilder().withModCode(validModCode).withTutName(validTutName).build();
+        modelStub.addModule(new ModuleBuilder().withModCode(VALID_MOD_CODE).build());
+        modelStub.addTutorial(new TutorialBuilder().withModCode(VALID_MOD_CODE).withTutName(VALID_TUT_NAME).build());
+        Student validStudent = new StudentBuilder().withModCode(VALID_MOD_CODE).withTutName(VALID_TUT_NAME).build();
 
         CommandResult commandResult = new AddStudentCommand(validStudent).execute(modelStub);
 
