@@ -65,7 +65,7 @@ public class Tutorial {
             return true;
         }
 
-        if (!(other instanceof Class)) {
+        if (!(other instanceof Tutorial)) {
             return false;
         }
 
