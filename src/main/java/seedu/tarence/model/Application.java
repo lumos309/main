@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import javafx.collections.ObservableList;
 
+import seedu.tarence.logic.commands.Command;
 import seedu.tarence.model.module.ModCode;
 import seedu.tarence.model.module.Module;
 import seedu.tarence.model.module.UniqueModuleList;
@@ -28,6 +29,8 @@ public class Application implements ReadOnlyApplication {
     private final UniquePersonList students;
     private final UniqueModuleList modules;
     private final UniqueTutorialList tutorials;
+
+    private Command pendingCommand;
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -318,6 +321,23 @@ public class Application implements ReadOnlyApplication {
     @Override
     public ObservableList<Tutorial> getTutorialList() {
         return tutorials.asUnmodifiableObservableList();
+    }
+
+    /**
+     * Stores a command for later execution, pending user confirmation.
+     */
+    public void storePendingCommand(Command command) {
+        pendingCommand = command;
+    }
+
+    /**
+     * Removes pending command from application and returns it for execution.
+     */
+    public Command retrievePendingCommand() {
+        requireNonNull(pendingCommand);
+        Command command = pendingCommand;
+        pendingCommand = null;
+        return command;
     }
 
     @Override

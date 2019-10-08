@@ -21,6 +21,9 @@ public class DeleteModuleCommand extends Command {
     public static final String COMMAND_WORD = "deleteMod";
 
     public static final String MESSAGE_DELETE_MODULE_SUCCESS = "Deleted Module: %1$s";
+    public static final String MESSAGE_CONFIRM_DELETE_NONEMPTY_MODULE = "WARNING: Module %1$s "
+            + "contains %2$d tutorial(s). Are you sure you want to delete it?\n"
+            + "(y/n)";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the module identified by either the index number used in the displayed module list,\n"
@@ -49,30 +52,36 @@ public class DeleteModuleCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         ObservableList<Module> lastShownList = model.getFilteredModuleList();
+        Module moduleToDelete = null;
 
         if (targetIndex.isPresent()) {
             if (targetIndex.get().getZeroBased() >= lastShownList.size()) {
                 throw new CommandException(Messages.MESSAGE_INVALID_MODULE_DISPLAYED_INDEX);
             }
+            moduleToDelete = lastShownList.get(targetIndex.get().getZeroBased());
+        } else {
+            if (!model.hasModuleOfCode(targetModCode.get())) {
+                throw new CommandException(Messages.MESSAGE_INVALID_MODULE_IN_APPLICATION);
+            }
 
-            Module moduleToDelete = lastShownList.get(targetIndex.get().getZeroBased());
-            model.deleteModule(moduleToDelete);
-            return new CommandResult(String.format(MESSAGE_DELETE_MODULE_SUCCESS, moduleToDelete));
-        }
-
-
-        if (!model.hasModuleOfCode(targetModCode.get())) {
-            throw new CommandException(Messages.MESSAGE_INVALID_MODULE_IN_APPLICATION);
-        }
-
-        for (Module module : lastShownList) {
-            if (module.getModCode().equals(targetModCode.get())) {
-                model.deleteModule(module);
-                return new CommandResult(String.format(MESSAGE_DELETE_MODULE_SUCCESS, module));
+            for (Module module : lastShownList) {
+                if (module.getModCode().equals(targetModCode.get())) {
+                    moduleToDelete = module;
+                    break;
+                }
             }
         }
 
-        return null;
+        requireNonNull(moduleToDelete);
+        if (!moduleToDelete.getTutorials().isEmpty()) {
+            model.storePendingCommand(new DeleteModuleVerifiedCommand(moduleToDelete));
+            return new CommandResult(String.format(MESSAGE_CONFIRM_DELETE_NONEMPTY_MODULE,
+                    moduleToDelete,
+                    moduleToDelete.getTutorials().size()));
+        }
+
+        model.deleteModule(moduleToDelete);
+        return new CommandResult(String.format(MESSAGE_DELETE_MODULE_SUCCESS, moduleToDelete));
     }
 
     /**

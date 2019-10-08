@@ -306,6 +306,14 @@ public class AddStudentCommandTest {
         public int getNumberOfTutorialsOfName(TutName tutName) {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void storePendingCommand(Command command) {};
+
+        @Override
+        public Command getPendingCommand() {
+            return null;
+        }
     }
 
     /**

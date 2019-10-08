@@ -186,4 +186,12 @@ class ModelStub implements Model {
     public int getNumberOfTutorialsOfName(TutName tutName) {
         return 0;
     }
+
+    @Override
+    public void storePendingCommand(Command command) {};
+
+    @Override
+    public Command getPendingCommand() {
+        return null;
+    }
 }
