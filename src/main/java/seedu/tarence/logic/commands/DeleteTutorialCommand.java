@@ -104,6 +104,7 @@ public class DeleteTutorialCommand extends Command {
                     tutorialToDelete.getStudents().size()));
         }
 
+        model.deleteStudentsFromTutorial(tutorialToDelete);
         model.deleteTutorial(tutorialToDelete);
         return new CommandResult(String.format(MESSAGE_DELETE_TUTORIAL_SUCCESS, tutorialToDelete));
     }

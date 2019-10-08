@@ -13,8 +13,7 @@ import seedu.tarence.model.module.ModCode;
 import seedu.tarence.model.module.Module;
 
 /**
- * Deletes a person identified using it's displayed index from T.A.rence.
- * // todo: disallow deleting non-empty modules?
+ * Deletes a person identified using its displayed index from T.A.rence.
  */
 public class DeleteModuleCommand extends Command {
 
@@ -28,7 +27,6 @@ public class DeleteModuleCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Deletes the module identified by either the index number used in the displayed module list,\n"
             + "or the specified module code.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
             + "Examples: " + COMMAND_WORD + " 1"
             + COMMAND_WORD + " m/GER1000";
 
@@ -80,6 +78,7 @@ public class DeleteModuleCommand extends Command {
                     moduleToDelete.getTutorials().size()));
         }
 
+        model.deleteTutorialsFromModule(moduleToDelete);
         model.deleteModule(moduleToDelete);
         return new CommandResult(String.format(MESSAGE_DELETE_MODULE_SUCCESS, moduleToDelete));
     }

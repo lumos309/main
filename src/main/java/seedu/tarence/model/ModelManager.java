@@ -166,6 +166,12 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void deleteTutorialsFromModule(Module module) {
+        requireNonNull(module);
+        application.removeTutorialsFromModule(module);
+    }
+
+    @Override
     public boolean hasModuleOfCode(ModCode modCode) {
         requireNonNull(modCode);
         return application.hasModuleOfCode(modCode);
@@ -210,6 +216,11 @@ public class ModelManager implements Model {
         application.removeTutorial(tutorial);
     }
 
+    @Override
+    public void deleteStudentsFromTutorial(Tutorial tutorial) {
+        requireNonNull(tutorial);
+        application.removeStudentsFromTutorial(tutorial);
+    }
     //=========== Filtered Person List Accessors =============================================================
 
     /**
@@ -281,6 +292,11 @@ public class ModelManager implements Model {
     @Override
     public Command getPendingCommand() {
         return application.retrievePendingCommand();
+    }
+
+    @Override
+    public boolean hasPendingCommand() {
+        return application.hasPendingCommand();
     }
 
     @Override

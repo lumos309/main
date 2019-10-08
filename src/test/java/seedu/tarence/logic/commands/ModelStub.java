@@ -145,6 +145,9 @@ class ModelStub implements Model {
     public void deleteModule(Module module) {}
 
     @Override
+    public void deleteTutorialsFromModule(Module module) {}
+
+    @Override
     public boolean hasTutorial(Tutorial tutorial) {
         // todo: Implement test for hasTutorial
         return false;
@@ -159,6 +162,9 @@ class ModelStub implements Model {
     public void deleteTutorial(Tutorial tutorial) {
         // todo: Implement test for deleteTutorial
     }
+
+    @Override
+    public void deleteStudentsFromTutorial(Tutorial tutorial) {}
 
     @Override
     public boolean hasModuleOfCode(ModCode modCode) {
@@ -194,4 +200,7 @@ class ModelStub implements Model {
     public Command getPendingCommand() {
         return null;
     }
+
+    @Override
+    public boolean hasPendingCommand() { return false; }
 }

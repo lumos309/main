@@ -228,6 +228,16 @@ public class Application implements ReadOnlyApplication {
     }
 
     /**
+     * Deletes all tutorials in a given module from the application.
+     */
+    public void removeTutorialsFromModule(Module module) {
+        for (Tutorial tutorial : module.getTutorials()) {
+            removeStudentsFromTutorial(tutorial);
+            tutorials.remove(tutorial);
+        }
+    }
+
+    /**
      * Adds a tutorial to its associated module. Assumes that a module of the given code exists.
      */
     public void addTutorialToModule(Tutorial tutorial) {
@@ -295,8 +305,18 @@ public class Application implements ReadOnlyApplication {
         requireNonNull(tutorial);
         tutorials.remove(tutorial);
     }
-    //// util methods
 
+    /**
+     * Deletes all students from the given tutorial.
+     */
+    public void removeStudentsFromTutorial(Tutorial tutorial) {
+        requireNonNull(tutorial);
+        for (Student student : tutorial.getStudents()) {
+            students.remove(student);
+        }
+    }
+
+    //// util methods
     @Override
     public String toString() {
         return persons.asUnmodifiableObservableList().size() + " persons";
@@ -334,10 +354,16 @@ public class Application implements ReadOnlyApplication {
      * Removes pending command from application and returns it for execution.
      */
     public Command retrievePendingCommand() {
-        requireNonNull(pendingCommand);
         Command command = pendingCommand;
         pendingCommand = null;
         return command;
+    }
+
+    /**
+     * Checks whether a pending command exists in the application.
+     */
+    public boolean hasPendingCommand() {
+        return pendingCommand != null;
     }
 
     @Override

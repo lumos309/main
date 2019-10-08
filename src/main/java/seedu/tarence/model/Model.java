@@ -159,11 +159,15 @@ public interface Model {
      */
     void deleteModule(Module module);
 
+    void deleteTutorialsFromModule(Module module);
+
     boolean hasTutorial(Tutorial tutorial);
 
     void addTutorial(Tutorial tutorial);
 
     void deleteTutorial(Tutorial tutorial);
+
+    void deleteStudentsFromTutorial(Tutorial tutorial);
 
     void addTutorialToModule(Tutorial tutorial);
 
@@ -188,4 +192,9 @@ public interface Model {
      * Removes pending command and returns it for execution.
      */
     Command getPendingCommand();
+
+    /**
+     * Checks if a pending command exists in the application.
+     */
+    boolean hasPendingCommand();
 }

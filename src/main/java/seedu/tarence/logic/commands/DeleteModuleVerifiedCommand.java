@@ -18,6 +18,7 @@ public class DeleteModuleVerifiedCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        model.deleteTutorialsFromModule(moduleToDelete);
         model.deleteModule(moduleToDelete);
         return new CommandResult(String.format(DeleteModuleCommand.MESSAGE_DELETE_MODULE_SUCCESS,
                 moduleToDelete));
