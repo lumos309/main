@@ -15,7 +15,7 @@ import seedu.tarence.model.tutorial.Tutorial;
 
 /**
  * Deletes a tutorial identified using its displayed index from T.A.rence.
- * todo: disallow deleting non-empty tutorials?
+ * TODO: disallow deleting non-empty tutorials?
  */
 public class DeleteTutorialCommand extends Command {
 
@@ -107,6 +107,16 @@ public class DeleteTutorialCommand extends Command {
         model.deleteStudentsFromTutorial(tutorialToDelete);
         model.deleteTutorial(tutorialToDelete);
         return new CommandResult(String.format(MESSAGE_DELETE_TUTORIAL_SUCCESS, tutorialToDelete));
+    }
+
+    @Override
+    public boolean needsInput() {
+        return false;
+    }
+
+    @Override
+    public boolean needsCommand(Command command) {
+        return false;
     }
 
     /**

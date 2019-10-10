@@ -18,6 +18,7 @@ import seedu.tarence.model.person.Person;
 import seedu.tarence.model.student.Student;
 import seedu.tarence.model.tutorial.TutName;
 import seedu.tarence.model.tutorial.Tutorial;
+import seedu.tarence.model.tutorial.Week;
 
 /**
  * Represents the in-memory model of the application data.
@@ -217,6 +218,12 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void setAttendance(Tutorial tutorial, Week week, Student student) {
+        requireAllNonNull(tutorial, week, student);
+        application.setAttendance(tutorial, week, student);
+    }
+
+    @Override
     public void deleteStudentsFromTutorial(Tutorial tutorial) {
         requireNonNull(tutorial);
         application.removeStudentsFromTutorial(tutorial);
@@ -297,6 +304,11 @@ public class ModelManager implements Model {
     @Override
     public boolean hasPendingCommand() {
         return application.hasPendingCommand();
+    }
+
+    @Override
+    public Command peekPendingCommand() {
+        return application.peekPendingCommand();
     }
 
     @Override
