@@ -62,7 +62,7 @@ public class SelectSuggestionCommandTest {
     private class ModelStubTutorialCommand extends ModelStub {
         final ArrayList<Module> modules = new ArrayList<>();
         final ArrayList<Tutorial> tutorials = new ArrayList<>();
-        List<Command> suggestedCommands = new ArrayList<>();
+        private List<Command> suggestedCommands = new ArrayList<>();
 
         @Override
         public void addTutorial(Tutorial tutorial) {

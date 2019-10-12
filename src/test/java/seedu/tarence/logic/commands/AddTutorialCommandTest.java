@@ -13,11 +13,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.tarence.commons.core.Messages;
 import seedu.tarence.logic.commands.exceptions.CommandException;
+import seedu.tarence.model.builder.ModuleBuilder;
+import seedu.tarence.model.builder.TutorialBuilder;
 import seedu.tarence.model.module.ModCode;
 import seedu.tarence.model.module.Module;
 import seedu.tarence.model.tutorial.Tutorial;
-import seedu.tarence.model.builder.ModuleBuilder;
-import seedu.tarence.model.builder.TutorialBuilder;
 
 public class AddTutorialCommandTest {
 
@@ -28,8 +28,7 @@ public class AddTutorialCommandTest {
     @Test
     public void execute_tutorialAcceptedByModule_addSuccessful() throws Exception {
         Module module = new ModuleBuilder().withModCode(VALID_MOD_CODE).build();
-        AddTutorialCommandTest.ModelStubTutorialCommand modelStub = new AddTutorialCommandTest
-                .ModelStubTutorialCommand();
+        AddTutorialCommandTest.ModelStubTutorialCommand modelStub = new ModelStubTutorialCommand();
         modelStub.modules.add(module);
         Tutorial validTutorial = new TutorialBuilder().withModCode(VALID_MOD_CODE).withTutName(VALID_TUT_NAME).build();
 
@@ -45,8 +44,7 @@ public class AddTutorialCommandTest {
     @Test
     public void execute_similarModuleSuggested_promptSuggestionSelection() throws Exception {
         Module module = new ModuleBuilder().withModCode(SIMILAR_MOD_CODE).build();
-        AddTutorialCommandTest.ModelStubTutorialCommand modelStub = new AddTutorialCommandTest
-                .ModelStubTutorialCommand();
+        AddTutorialCommandTest.ModelStubTutorialCommand modelStub = new ModelStubTutorialCommand();
         modelStub.modules.add(module);
         Tutorial validTutorial = new TutorialBuilder().withModCode(VALID_MOD_CODE).build();
         Tutorial similarTutorial = new TutorialBuilder().withModCode(SIMILAR_MOD_CODE).build();
@@ -64,18 +62,17 @@ public class AddTutorialCommandTest {
     @Test
     public void execute_noSuchModule_throwsCommandException() {
         Tutorial tutorial = new TutorialBuilder().withModCode(VALID_MOD_CODE).withTutName(VALID_TUT_NAME).build();
-        AddTutorialCommandTest.ModelStubTutorialCommand modelStub = new AddTutorialCommandTest
-                .ModelStubTutorialCommand();
+        AddTutorialCommandTest.ModelStubTutorialCommand modelStub = new ModelStubTutorialCommand();
         AddTutorialCommand addTutorialCommand = new AddTutorialCommand(tutorial);
 
         assertThrows(CommandException.class,
                 AddTutorialCommand.MESSAGE_INVALID_MODULE, () -> addTutorialCommand.execute(modelStub));
     }
 
-    private class ModelStubTutorialCommand extends ModelStub {
+    private static class ModelStubTutorialCommand extends ModelStub {
         final ArrayList<Module> modules = new ArrayList<>();
         final ArrayList<Tutorial> tutorials = new ArrayList<>();
-        List<Command> suggestedCommands = new ArrayList<>();
+        private List<Command> suggestedCommands = new ArrayList<>();
 
         @Override
         public void addTutorial(Tutorial tutorial) {

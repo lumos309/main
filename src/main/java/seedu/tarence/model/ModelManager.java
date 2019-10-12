@@ -15,6 +15,7 @@ import seedu.tarence.commons.core.LogsCenter;
 import seedu.tarence.logic.commands.Command;
 import seedu.tarence.model.module.ModCode;
 import seedu.tarence.model.module.Module;
+import seedu.tarence.model.person.NameContainsKeywordsPredicate;
 import seedu.tarence.model.person.Person;
 import seedu.tarence.model.student.Student;
 import seedu.tarence.model.tutorial.TutName;
@@ -137,6 +138,18 @@ public class ModelManager implements Model {
     public void addStudent(Student student) {
         application.addStudent(student);
         updateFilteredStudentList(PREDICATE_SHOW_ALL_STUDENTS);
+
+    }
+
+    @Override
+    public void setStudent(Student target, Student editedStudent) {
+        requireAllNonNull(target, editedStudent);
+        application.setStudent(target, editedStudent);
+    }
+
+    @Override
+    public void deleteStudent(Student student) {
+        application.removeStudent(student);
     }
 
     @Override
@@ -275,6 +288,13 @@ public class ModelManager implements Model {
 
     @Override
     public void updateFilteredStudentList(Predicate<Student> predicate) {
+        requireNonNull(predicate);
+        filteredStudents.setPredicate(predicate);
+    }
+
+    @Override
+    public void updateFilteredStudentList(NameContainsKeywordsPredicate predicate) {
+
         requireNonNull(predicate);
         filteredStudents.setPredicate(predicate);
     }
