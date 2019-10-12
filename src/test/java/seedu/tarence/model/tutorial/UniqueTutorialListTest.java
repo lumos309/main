@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.tarence.model.tutorial.exceptions.DuplicateTutorialException;
 import seedu.tarence.model.tutorial.exceptions.TutorialNotFoundException;
-import seedu.tarence.testutil.TutorialBuilder;
+import seedu.tarence.model.builder.TutorialBuilder;
 
 public class UniqueTutorialListTest {
 

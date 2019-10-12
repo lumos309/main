@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.tarence.model.module.exceptions.DuplicateModuleException;
 import seedu.tarence.model.module.exceptions.ModuleNotFoundException;
-import seedu.tarence.testutil.ModuleBuilder;
+import seedu.tarence.model.builder.ModuleBuilder;
 
 
 public class UniqueModuleListTest {

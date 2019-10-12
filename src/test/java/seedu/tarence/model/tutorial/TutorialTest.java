@@ -16,7 +16,7 @@ import java.util.TreeSet;
 import org.junit.jupiter.api.Test;
 
 import seedu.tarence.model.student.Student;
-import seedu.tarence.testutil.TutorialBuilder;
+import seedu.tarence.model.builder.TutorialBuilder;
 
 public class TutorialTest {
 

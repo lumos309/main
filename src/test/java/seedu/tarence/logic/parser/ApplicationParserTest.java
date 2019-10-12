@@ -26,9 +26,9 @@ import seedu.tarence.model.person.NameContainsKeywordsPredicate;
 import seedu.tarence.model.person.Person;
 import seedu.tarence.model.student.Student;
 import seedu.tarence.testutil.EditPersonDescriptorBuilder;
-import seedu.tarence.testutil.PersonBuilder;
+import seedu.tarence.model.builder.PersonBuilder;
 import seedu.tarence.testutil.PersonUtil;
-import seedu.tarence.testutil.StudentBuilder;
+import seedu.tarence.model.builder.StudentBuilder;
 
 public class ApplicationParserTest {
 

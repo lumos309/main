@@ -26,10 +26,10 @@ import seedu.tarence.model.person.exceptions.DuplicatePersonException;
 import seedu.tarence.model.student.Student;
 import seedu.tarence.model.tutorial.Tutorial;
 import seedu.tarence.model.tutorial.exceptions.DuplicateTutorialException;
-import seedu.tarence.testutil.ModuleBuilder;
-import seedu.tarence.testutil.PersonBuilder;
-import seedu.tarence.testutil.StudentBuilder;
-import seedu.tarence.testutil.TutorialBuilder;
+import seedu.tarence.model.builder.ModuleBuilder;
+import seedu.tarence.model.builder.PersonBuilder;
+import seedu.tarence.model.builder.StudentBuilder;
+import seedu.tarence.model.builder.TutorialBuilder;
 
 public class ApplicationTest {
 

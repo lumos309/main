@@ -23,7 +23,7 @@ import seedu.tarence.model.ModelManager;
 import seedu.tarence.model.UserPrefs;
 import seedu.tarence.model.person.Person;
 import seedu.tarence.testutil.EditPersonDescriptorBuilder;
-import seedu.tarence.testutil.PersonBuilder;
+import seedu.tarence.model.builder.PersonBuilder;
 
 /**
  * Contains integration tests (interaction with the Model, UndoCommand and RedoCommand) and unit tests for EditCommand.

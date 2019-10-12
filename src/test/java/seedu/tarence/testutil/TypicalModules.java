@@ -2,6 +2,7 @@ package seedu.tarence.testutil;
 
 import java.util.ArrayList;
 
+import seedu.tarence.model.builder.ModuleBuilder;
 import seedu.tarence.model.module.Module;
 import seedu.tarence.model.tutorial.Tutorial;
 
