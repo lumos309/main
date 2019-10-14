@@ -28,8 +28,8 @@ import seedu.tarence.model.tutorial.TutName;
  */
 public class AddStudentCommandParser extends CommandParser<AddStudentCommand> {
     private static final boolean IS_FULL_FORMAT = true;
-    private static final ModCode TEMP_MOD_CODE = new ModCode("AB1231");
-    private static final TutName TEMP_TUT_NAME = new TutName("temp tutorial");
+    public static final ModCode TEMP_MOD_CODE = new ModCode("AB1231");
+    public static final TutName TEMP_TUT_NAME = new TutName("temp tutorial");
 
     private static final OptionalArgument[] optionalArgs = {
         OptionalArgument.OPTIONAL_MATNO,

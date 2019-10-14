@@ -1,10 +1,16 @@
 package seedu.tarence.logic.commands;
 
+import static seedu.tarence.commons.core.Messages.MESSAGE_INVALID_MODULE_IN_APPLICATION;
+import static seedu.tarence.commons.core.Messages.MESSAGE_SUGGESTED_CORRECTIONS;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 import seedu.tarence.logic.commands.exceptions.CommandException;
+import seedu.tarence.logic.finder.Finder;
 import seedu.tarence.model.Model;
 import seedu.tarence.model.module.ModCode;
+import seedu.tarence.model.tutorial.TutName;
 import seedu.tarence.model.tutorial.Tutorial;
 
 /**
@@ -32,9 +38,37 @@ public abstract class Command {
      */
     public abstract boolean needsCommand(Command command);
 
+    /**
+     * Returns a list of {@code ModCode}s similar to the given one, and corresponding to a module containing a
+     * target tutorial. Used for generating suggested corrections to modcode input errors by the user.
+     *
+     * @param modCode The incorrectly entered modcode from the user.
+     * @param tutName The target tutorial that must be present in the suggested modules.
+     * @param model The model in which to search.
+     * @return a list of modcodes fulfilling the above criteria.
+     * @throws CommandException
+     */
+    List<ModCode> getSimilarModCodesWithTutorial (ModCode modCode, TutName tutName, Model model)
+            throws CommandException {
+        return new Finder(model).findSimilarModCodes(modCode)
+                .stream().filter(similarModCode -> model.hasTutorialInModule(similarModCode, tutName))
+                .collect(Collectors.toList());
+    }
 
-
-    public void suggestSimilarCommands(Tutorial tutorial, List<ModCode> modCodes) {
-
+    /**
+     * Returns a list of {@code TutName}s similar to the given one, and corresponding to a tutorial belonging to a
+     * target module. Used for generating suggested corrections to modcode input errors by the user.
+     *
+     * @param modCode The target module that must be present in the suggested tutorials.
+     * @param tutName The incorrectly entered tutorial name from the user.
+     * @param model The model in which to search.
+     * @return a list of tutnames fulfilling the above criteria.
+     * @throws CommandException
+     */
+    List<TutName> getSimilarTutNamesWithModule (ModCode modCode, TutName tutName, Model model)
+            throws CommandException {
+        return new Finder(model).findSimilarTutNames(tutName)
+                .stream().filter(similarTutName -> model.hasTutorialInModule(modCode, similarTutName))
+                .collect(Collectors.toList());
     }
 }
