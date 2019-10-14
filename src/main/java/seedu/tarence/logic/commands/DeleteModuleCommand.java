@@ -3,7 +3,6 @@ package seedu.tarence.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.tarence.commons.core.Messages.MESSAGE_INVALID_MODULE_IN_APPLICATION;
 import static seedu.tarence.commons.core.Messages.MESSAGE_SUGGESTED_CORRECTIONS;
-import static seedu.tarence.logic.commands.AddTutorialCommand.MESSAGE_INVALID_MODULE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +14,8 @@ import seedu.tarence.commons.core.index.Index;
 import seedu.tarence.logic.commands.exceptions.CommandException;
 import seedu.tarence.logic.finder.Finder;
 import seedu.tarence.model.Model;
-import seedu.tarence.model.builder.TutorialBuilder;
 import seedu.tarence.model.module.ModCode;
 import seedu.tarence.model.module.Module;
-import seedu.tarence.model.tutorial.Tutorial;
 
 /**
  * Deletes a person identified using its displayed index from T.A.rence.

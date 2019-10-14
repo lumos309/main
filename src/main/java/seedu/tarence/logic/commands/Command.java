@@ -1,8 +1,5 @@
 package seedu.tarence.logic.commands;
 
-import static seedu.tarence.commons.core.Messages.MESSAGE_INVALID_MODULE_IN_APPLICATION;
-import static seedu.tarence.commons.core.Messages.MESSAGE_SUGGESTED_CORRECTIONS;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +8,6 @@ import seedu.tarence.logic.finder.Finder;
 import seedu.tarence.model.Model;
 import seedu.tarence.model.module.ModCode;
 import seedu.tarence.model.tutorial.TutName;
-import seedu.tarence.model.tutorial.Tutorial;
 
 /**
  * Represents a command with hidden internal logic and the ability to be executed.

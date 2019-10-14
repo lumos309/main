@@ -1,7 +1,5 @@
 package seedu.tarence.logic.finder;
 
-import static seedu.tarence.logic.commands.AddTutorialCommand.MESSAGE_INVALID_MODULE;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -10,16 +10,12 @@ import static seedu.tarence.logic.parser.CliSyntax.PREFIX_TUTORIAL_NAME;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
-
 import seedu.tarence.commons.core.index.Index;
 import seedu.tarence.logic.commands.exceptions.CommandException;
-import seedu.tarence.logic.finder.Finder;
 import seedu.tarence.model.Model;
 import seedu.tarence.model.builder.StudentBuilder;
-import seedu.tarence.model.builder.TutorialBuilder;
 import seedu.tarence.model.module.ModCode;
 import seedu.tarence.model.student.Student;
 import seedu.tarence.model.tutorial.TutName;
@@ -143,8 +139,8 @@ public class AddStudentCommand extends Command {
         for (TutName similarTutName: similarTutNames) {
             Student newStudent = new StudentBuilder(student).withTutName(similarTutName.toString()).build();
             AddStudentCommand newCommand = new AddStudentCommand(newStudent);
-            if (suggestedCommands.stream().
-                    anyMatch(existingCommand -> existingCommand.equals(newCommand))) {
+            if (suggestedCommands.stream()
+                    .anyMatch(existingCommand -> existingCommand.equals(newCommand))) {
                 continue;
             }
             suggestedCommands.add(newCommand);

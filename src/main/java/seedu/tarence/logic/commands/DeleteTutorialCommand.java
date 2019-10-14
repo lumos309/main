@@ -6,16 +6,12 @@ import static seedu.tarence.commons.core.Messages.MESSAGE_SUGGESTED_CORRECTIONS;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import seedu.tarence.commons.core.Messages;
 import seedu.tarence.commons.core.index.Index;
 import seedu.tarence.logic.commands.exceptions.CommandException;
-import seedu.tarence.logic.finder.Finder;
 import seedu.tarence.model.Model;
-import seedu.tarence.model.builder.StudentBuilder;
 import seedu.tarence.model.module.ModCode;
-import seedu.tarence.model.student.Student;
 import seedu.tarence.model.tutorial.TutName;
 import seedu.tarence.model.tutorial.Tutorial;
 
@@ -147,8 +143,8 @@ public class DeleteTutorialCommand extends Command {
         }
         for (TutName similarTutName: similarTutNames) {
             DeleteTutorialCommand newCommand = new DeleteTutorialCommand(originalModCode, similarTutName);
-            if (suggestedCommands.stream().
-                    anyMatch(existingCommand -> existingCommand.equals(newCommand))) {
+            if (suggestedCommands.stream()
+                    .anyMatch(existingCommand -> existingCommand.equals(newCommand))) {
                 continue;
             }
             suggestedCommands.add(newCommand);
@@ -190,7 +186,7 @@ public class DeleteTutorialCommand extends Command {
         return other == this // short circuit if same object
                 || (other instanceof DeleteTutorialCommand // instanceof handles nulls
                 && targetIndex.equals(((DeleteTutorialCommand) other).targetIndex)
-                && targetTutName.equals(((DeleteTutorialCommand) other).targetTutName
-        )       && targetModCode.equals(((DeleteTutorialCommand) other).targetModCode)); // state check
+                && targetTutName.equals(((DeleteTutorialCommand) other).targetTutName)
+                && targetModCode.equals(((DeleteTutorialCommand) other).targetModCode)); // state check
     }
 }
