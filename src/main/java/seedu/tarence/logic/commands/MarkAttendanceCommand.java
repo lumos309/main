@@ -1,18 +1,21 @@
 package seedu.tarence.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.tarence.commons.core.Messages.MESSAGE_SUGGESTED_CORRECTIONS;
 import static seedu.tarence.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.tarence.logic.parser.CliSyntax.PREFIX_MODULE;
 import static seedu.tarence.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.tarence.logic.parser.CliSyntax.PREFIX_TUTORIAL_NAME;
 import static seedu.tarence.logic.parser.CliSyntax.PREFIX_TUTORIAL_WEEKS;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import seedu.tarence.commons.core.Messages;
 import seedu.tarence.logic.commands.exceptions.CommandException;
 import seedu.tarence.model.Model;
+import seedu.tarence.model.builder.StudentBuilder;
 import seedu.tarence.model.module.ModCode;
 import seedu.tarence.model.person.Name;
 import seedu.tarence.model.student.Student;
@@ -71,7 +74,20 @@ public class MarkAttendanceCommand extends Command {
                 .findFirst()
                 .orElse(null);
         if (targetTutorial == null) {
-            throw new CommandException(Messages.MESSAGE_INVALID_TUTORIAL_IN_MODULE);
+            ModCode modCode = targetModCode;
+            TutName tutName = targetTutName;
+            // find tutorials with same name and similar modcodes, and similar names and same modcode
+            List<ModCode> similarModCodes = getSimilarModCodesWithTutorial(modCode, tutName, model);
+            List<TutName> similarTutNames = getSimilarTutNamesWithModule(modCode, tutName, model);
+            if (similarModCodes.size() == 0 && similarTutNames.size() == 0) {
+                throw new CommandException(Messages.MESSAGE_INVALID_TUTORIAL_IN_MODULE);
+            }
+
+            String suggestedCorrections = createSuggestedCommands(similarModCodes, modCode,
+                    similarTutNames, tutName, targetStudName, model);
+            model.storePendingCommand(new SelectSuggestionCommand());
+            return new CommandResult(String.format(MESSAGE_SUGGESTED_CORRECTIONS, "Tutorial",
+                    modCode.toString() + " " + tutName.toString()) + suggestedCorrections);
         }
 
         Student targetStudent;
@@ -101,6 +117,40 @@ public class MarkAttendanceCommand extends Command {
         String isPresent = targetTutorial.getAttendance().isPresent(week, targetStudent) ? "present" : "absent";
         return new CommandResult(String.format(MESSAGE_MARK_ATTENDANCE_SUCCESS,
                 targetStudent.getName(), isPresent));
+    }
+
+    /**
+     * Generates and stores {@code AddStudentCommand}s from a list of {@code ModCode}s.
+     *
+     * @param similarModCodes List of {@code ModCode}s similar to the user's input.
+     * @param model The {@code Model} in which to store the generated commands.
+     * @return string representing the suggested {@code ModCode}s and their corresponding indexes for user selection.
+     */
+    private String createSuggestedCommands(List<ModCode> similarModCodes, ModCode originalModCode,
+                                           List<TutName> similarTutNames, TutName originalTutName,
+                                           Optional<Name> studName, Model model) {
+        List<Command> suggestedCommands = new ArrayList<>();
+        StringBuilder s = new StringBuilder();
+        int index = 1;
+        for (ModCode similarModCode : similarModCodes) {
+            suggestedCommands.add(new MarkAttendanceCommand(similarModCode, originalTutName, week, studName.get()));
+            s.append(index).append(". ").append(similarModCode).append(", ").append(originalTutName).append("\n");
+            index++;
+        }
+        for (TutName similarTutName: similarTutNames) {
+            MarkAttendanceCommand newCommand = new MarkAttendanceCommand(originalModCode, similarTutName, week,
+                    studName.get());
+            if (suggestedCommands.stream()
+                    .anyMatch(existingCommand -> existingCommand.equals(newCommand))) {
+                continue;
+            }
+            suggestedCommands.add(newCommand);
+            s.append(index).append(". ").append(originalModCode).append(", ").append(similarTutName).append("\n");
+            index++;
+        }
+        String suggestedCorrections = s.toString();
+        model.storeSuggestedCommands(suggestedCommands, suggestedCorrections);
+        return suggestedCorrections;
     }
 
     @Override
