@@ -21,7 +21,8 @@ public class DisplayAttendanceCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Attendance is displayed!";
 
-    private static final String[] COMMAND_SYNONYMS = {COMMAND_WORD.toLowerCase()};
+    private static final String[] COMMAND_SYNONYMS = {COMMAND_WORD.toLowerCase(), "displayatt", "showattendance",
+        "showatt"};
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Displays the tutorial attendance identified by the tutorial name and module code of the tutorial.\n"

@@ -76,6 +76,7 @@ public class DisplayAttendanceCommandTest {
     public void execute_differentCommandWord_showSuccess() {
         String validCommand = "diSplAyAtTenDaNce";
         String validCommand2 = "DISPLAYATTENDANCE";
+        String validCommand3 = "DisplayAtt";
 
         ModCode modCode = new ModCode(VALID_MODCODE);
         TutName tutName = new TutName(VALID_TUTNAME);
@@ -85,12 +86,11 @@ public class DisplayAttendanceCommandTest {
         // Correct word
         assertTrue(displayAttendanceCommand.isMatchingCommandWord(validCommand));
         assertTrue(displayAttendanceCommand.isMatchingCommandWord(validCommand2));
+        assertTrue(displayAttendanceCommand.isMatchingCommandWord(validCommand3));
 
         // Incorrect word
-        String invalidCommand1 = "DISPLAY";
-        String invalidCommand2 = "DisplayAtt";
+        String invalidCommand = "DISPLAY";
 
-        assertFalse(displayAttendanceCommand.isMatchingCommandWord(invalidCommand1));
-        assertFalse(displayAttendanceCommand.isMatchingCommandWord(invalidCommand2));
+        assertFalse(displayAttendanceCommand.isMatchingCommandWord(invalidCommand));
     }
 }
