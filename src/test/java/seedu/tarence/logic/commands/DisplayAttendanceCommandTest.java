@@ -49,6 +49,7 @@ public class DisplayAttendanceCommandTest {
 
     @Test
     public void execute_similarTutorialName_showSuggestedCommands() throws CommandException {
+        model = new ModelManager(getTypicalApplication(), new UserPrefs());
         TutorialBuilder.DEFAULT_STUDENTS.clear();
         Tutorial similarTutorial =
                 new TutorialBuilder().withModCode(VALID_MODCODE).withTutName(SIMILAR_TUTNAME).build();
