@@ -3,7 +3,6 @@ package seedu.tarence.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.tarence.logic.commands.CommandTestUtil.VALID_MODULE_AMY;
 import static seedu.tarence.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.tarence.testutil.TypicalStudents.getTypicalApplication;
 

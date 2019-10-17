@@ -71,6 +71,10 @@ public class DisplayAttendanceCommand extends Command {
         return null;
     }
 
+    /**
+     * Handles the creating and processing of suggested {@code DisplayAttendanceCommand}s, if the user's input does not
+     * match any combination of modules, tutorials and students.
+     */
     private CommandResult handleSuggestedCommands(Model model)
         throws CommandException {
         List<TutName> similarTutNames = getSimilarTutNamesWithModule(modCode, tutName, model);
@@ -84,6 +88,14 @@ public class DisplayAttendanceCommand extends Command {
                 modCode.toString() + " " + tutName.toString()) + suggestedCorrections);
     }
 
+    /**
+     * Generates and stores {@code DisplayAttendanceCommand}s from a list of {@code ModCode}s and {@code TutName}s.
+     *
+     * @param similarModCodes List of {@code ModCode}s similar to the user's input.
+     * @param similarTutNames List of {@code TutName}s similar to the user's input.
+     * @param model The {@code Model} in which to store the generated commands.
+     * @return string representing the suggested {@code ModCode}s and their corresponding indexes for user selection.
+     */
     private String createSuggestedCommands(List<ModCode> similarModCodes, List<TutName> similarTutNames, Model model) {
         List<Command> suggestedCommands = new ArrayList<>();
         StringBuilder s = new StringBuilder();
