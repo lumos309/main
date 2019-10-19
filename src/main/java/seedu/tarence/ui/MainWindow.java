@@ -27,6 +27,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import seedu.tarence.commons.core.GuiSettings;
 import seedu.tarence.commons.core.LogsCenter;
+import seedu.tarence.logic.AutocompleteHandler;
 import seedu.tarence.logic.Logic;
 import seedu.tarence.logic.commands.CommandResult;
 import seedu.tarence.logic.commands.exceptions.CommandException;
@@ -55,6 +56,7 @@ public class MainWindow extends UiPart<Stage> {
     private StudentListPanel studentListPanel;
     private ResultDisplay resultDisplay;
     private HelpWindow helpWindow;
+    private CommandBox commandBox;
 
     @FXML
     private TableView attendancePlaceholder;
@@ -157,7 +159,7 @@ public class MainWindow extends UiPart<Stage> {
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getApplicationFilePath());
         statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
-        CommandBox commandBox = new CommandBox(this::executeCommand);
+        commandBox = new CommandBox(this::executeCommand, this::executeAutocomplete, this::executeInputChanged);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
     }
 
@@ -316,6 +318,29 @@ public class MainWindow extends UiPart<Stage> {
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
         }
+    }
+
+    /**
+     * Handles searching for autocomplete data and modifying the command box input field.
+     */
+    private CommandResult executeAutocomplete(String partialInput) throws CommandException, ParseException {
+        try {
+            AutocompleteHandler.AutocompleteData autocompleteData = logic.autocomplete(partialInput);
+            resultDisplay.setFeedbackToUser(autocompleteData.autocompleteText);
+            commandBox.setInput(autocompleteData);
+            return new CommandResult("");
+        } catch (Exception e) {
+            resultDisplay.setFeedbackToUser(e.getMessage());
+            throw e;
+        }
+    }
+
+    /**
+     * Autocomplete helper method. Sets a flag indicating that autocomplete search data needs to be updated.
+     */
+    private CommandResult executeInputChanged(String dummy) throws ParseException {
+        logic.markInputChanged();
+        return new CommandResult("");
     }
 
 }

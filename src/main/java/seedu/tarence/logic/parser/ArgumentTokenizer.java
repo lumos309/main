@@ -2,8 +2,13 @@ package seedu.tarence.logic.parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import seedu.tarence.logic.parser.exceptions.ParseException;
 
 /**
  * Tokenizes arguments string of the form: {@code preamble <prefix>value <prefix>value ...}<br>
@@ -28,6 +33,15 @@ public class ArgumentTokenizer {
         return extractArguments(argsString, positions);
     }
 
+    public static PrefixValue getLastArgument (String argsString, Prefix... prefixes) throws ParseException {
+        Optional<PrefixPosition> position = findLastPrefixPosition(argsString, prefixes);
+        if (position.isEmpty()) {
+            throw new ParseException("Unable to detect field for autofilling.");
+        }
+
+        return getLastArgument(argsString, position.get());
+    }
+
     /**
      * Finds all zero-based prefix positions in the given arguments string.
      *
@@ -39,6 +53,15 @@ public class ArgumentTokenizer {
         return Arrays.stream(prefixes)
                 .flatMap(prefix -> findPrefixPositions(argsString, prefix).stream())
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * {@see findAllPrefixPositions}
+     */
+    static Optional<PrefixPosition> findLastPrefixPosition(String argsString, Prefix... prefixes) {
+        return Arrays.stream(prefixes)
+                .flatMap(prefix -> findPrefixPositions(argsString, prefix).stream())
+                .max(Comparator.comparingInt(PrefixPosition::getStartPosition));
     }
 
     /**
@@ -110,6 +133,19 @@ public class ArgumentTokenizer {
     }
 
     /**
+     * Gets the argument value of the last prefix in an input string.
+     * @param argsString The full input from the user.
+     * @param prefixPosition The {@code PrefixPosition} representing the last prefix in the string.
+     * @return a {@code PrefixValue} containing the last prefix and its argument value.
+     */
+    static PrefixValue getLastArgument(String argsString, PrefixPosition prefixPosition) {
+        Prefix prefix = prefixPosition.getPrefix();
+        return new PrefixValue(prefix,
+                argsString.substring(prefixPosition.getStartPosition()
+                        + prefix.getPrefix().length()));
+    }
+
+    /**
      * Returns the trimmed value of the argument in the arguments string specified by {@code currentPrefixPosition}.
      * The end position of the value is determined by {@code nextPrefixPosition}.
      */
@@ -142,6 +178,27 @@ public class ArgumentTokenizer {
 
         Prefix getPrefix() {
             return prefix;
+        }
+    }
+
+    /**
+     * Represents a single prefix and its corresponding argument value.
+     */
+    static class PrefixValue {
+        private Prefix prefix;
+        private String value;
+
+        PrefixValue(Prefix prefix, String value) {
+            this.prefix = prefix;
+            this.value = value;
+        }
+
+        Prefix getPrefix() {
+            return prefix;
+        }
+
+        String getValue() {
+            return value;
         }
     }
 
