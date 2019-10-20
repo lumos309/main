@@ -15,4 +15,13 @@ public class PartialInput {
             this.lastArgument = lastArgument;
             this.completions = completions;
         }
+
+        @Override
+        public boolean equals(Object other) {
+            return other == this
+                    || (other instanceof PartialInput
+                        && originalInput.equals(((PartialInput) other).originalInput)
+                        && lastArgument.equals(((PartialInput) other).lastArgument)
+                        && completions.equals(((PartialInput) other).completions));
+        }
 }

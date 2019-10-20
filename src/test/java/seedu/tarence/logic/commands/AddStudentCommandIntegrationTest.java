@@ -18,6 +18,7 @@ import seedu.tarence.model.module.Module;
 import seedu.tarence.model.person.exceptions.DuplicatePersonException;
 import seedu.tarence.model.student.Student;
 import seedu.tarence.model.tutorial.Tutorial;
+import seedu.tarence.testutil.TypicalStudents;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code AddCommand}.
@@ -32,6 +33,7 @@ public class AddStudentCommandIntegrationTest {
     @BeforeEach
     public void setUp() {
         model = new ModelManager(getTypicalApplication(), new UserPrefs());
+
     }
 
     @Test

@@ -19,7 +19,7 @@ public class PartialInputParser {
     public static PartialInput parse(String partialInput, Model model) throws ParseException {
         Finder finder = new Finder(model);
 
-        ArgumentTokenizer.PrefixValue lastPrefixValue = ArgumentTokenizer.getLastArgument(partialInput, PREFIX_EMAIL,
+        ArgumentSingleValue lastPrefixValue = ArgumentTokenizer.tokenizeLastArgument(partialInput, PREFIX_EMAIL,
                 PREFIX_NAME, PREFIX_NUSID, PREFIX_MATNO, PREFIX_MODULE, PREFIX_TUTORIAL_NAME, PREFIX_TUTORIAL_DAY);
 
         Prefix prefix = lastPrefixValue.getPrefix();
