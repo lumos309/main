@@ -2,7 +2,6 @@ package seedu.tarence.logic;
 
 import org.apache.commons.lang3.StringUtils;
 
-import seedu.tarence.commons.core.index.Index;
 import seedu.tarence.logic.parser.ApplicationParser;
 import seedu.tarence.logic.parser.PartialInput;
 import seedu.tarence.logic.parser.exceptions.ParseException;
