@@ -42,6 +42,14 @@ public class CommandBox extends UiPart<Region> {
     }
 
     /**
+     * Helper method to reset focus to CommandBox.
+     */
+    public void setFocus() {
+        commandTextField.requestFocus();
+        commandTextField.positionCaret(commandTextField.getText().length());
+    }
+
+    /**
      * Handles the Enter button pressed event.
      */
     @FXML

@@ -322,16 +322,16 @@ public class MainWindow extends UiPart<Stage> {
     /**
      * Handles searching for autocomplete data and modifying the command box input field.
      */
-    private CommandResult executeAutocomplete(String partialInput) throws CommandException, ParseException {
+    private CommandResult executeAutocomplete(String partialInput) {
         try {
             String autocompletedString = logic.autocomplete(partialInput);
             resultDisplay.setFeedbackToUser(autocompletedString);
             commandBox.setInput(autocompletedString);
-            return new CommandResult("");
-        } catch (Exception e) {
+        } catch (IndexOutOfBoundsException | ParseException e) {
             resultDisplay.setFeedbackToUser(e.getMessage());
-            throw e;
+            commandBox.setFocus();
         }
+        return new CommandResult("");
     }
 
     /**
