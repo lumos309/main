@@ -159,8 +159,8 @@ public class ArgumentTokenizerTest {
     @Test
     public void tokenize_lastArgumentPrefixAbsent_throwsParseException() {
         String argsString = "somePreamble n/some name tn/some tutorial name";
-        assertThrows(ParseException.class,
-                () -> ArgumentTokenizer.tokenizeLastArgument(argsString, dashT, hatQ), ERROR_AUTOFILL_DETECTION);
+        assertThrows(ParseException.class, () -> ArgumentTokenizer.tokenizeLastArgument(argsString, dashT, hatQ),
+            ERROR_AUTOFILL_DETECTION);
     }
 
     @Test

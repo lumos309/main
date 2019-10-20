@@ -34,7 +34,11 @@ public class ArgumentTokenizer {
         return extractArguments(argsString, positions);
     }
 
-    public static ArgumentSingleValue tokenizeLastArgument(String argsString, Prefix... prefixes) throws ParseException {
+    /**
+     * {@see tokenize}.
+     */
+    public static ArgumentSingleValue tokenizeLastArgument(String argsString, Prefix... prefixes)
+            throws ParseException {
         Optional<PrefixPosition> position = findLastPrefixPosition(argsString, prefixes);
         if (position.isEmpty()) {
             throw new ParseException(ERROR_AUTOFILL_DETECTION);

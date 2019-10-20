@@ -32,7 +32,7 @@ public interface Logic {
      * @return the autocomplete search result.
      * @throws ParseException If no results can be found
      */
-    AutocompleteHandler.AutocompleteData autocomplete(String partialInput) throws ParseException;
+    String autocomplete(String partialInput) throws ParseException;
 
     void markInputChanged();
 

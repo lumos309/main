@@ -6,8 +6,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
-import seedu.tarence.logic.AutocompleteHandler;
-import seedu.tarence.logic.commands.Command;
 import seedu.tarence.logic.commands.CommandResult;
 import seedu.tarence.logic.commands.exceptions.CommandException;
 import seedu.tarence.logic.parser.exceptions.ParseException;
@@ -37,10 +35,10 @@ public class CommandBox extends UiPart<Region> {
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
     }
 
-    public void setInput(AutocompleteHandler.AutocompleteData autocompleteData) {
-        commandTextField.setText(autocompleteData.autocompleteText);
+    public void setInput(String autocompletedString) {
+        commandTextField.setText(autocompletedString);
         commandTextField.requestFocus();
-        commandTextField.positionCaret(autocompleteData.autocompleteText.length());
+        commandTextField.positionCaret(autocompletedString.length());
     }
 
     /**
@@ -56,20 +54,25 @@ public class CommandBox extends UiPart<Region> {
         }
     }
 
+    /**
+     * Handles the Tab button pressed event.
+     */
     @FXML
-    private void handleAutocomplete() {
-        try {
-            autocompleteExecutor.execute(commandTextField.getText());
-        } catch (CommandException | ParseException e) {
-
-        }
+    private void handleAutocomplete() throws CommandException, ParseException {
+        autocompleteExecutor.execute(commandTextField.getText());
     }
 
+    /**
+     * Default handler for button pressed events.
+     */
     @FXML
     private void handleOtherInput() throws CommandException, ParseException {
         inputChangedExecutor.execute("");
     }
 
+    /**
+     * Handles button press inputs from the user.
+     */
     @FXML
     private void handleKeyPressed(KeyEvent keyEvent) throws CommandException, ParseException {
         if (keyEvent.getCode().equals(KeyCode.ENTER)) {

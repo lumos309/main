@@ -28,13 +28,16 @@ import seedu.tarence.testutil.TypicalStudents;
 
 public class PartialInputParserTest {
 
-    private Model model;
-    public static final Module MODULE_AMY = new ModuleBuilder().withModCode(VALID_MODULE_AMY).build();
-    public static final Module MODULE_BOB = new ModuleBuilder().withModCode(VALID_MODULE_BOB).build();
-    public static final Tutorial TUTORIAL_AMY = new TutorialBuilder().withModCode(VALID_MODULE_AMY)
+    private static Model model;
+
+    private static final Module MODULE_AMY = new ModuleBuilder().withModCode(VALID_MODULE_AMY).build();
+    private static final Module MODULE_BOB = new ModuleBuilder().withModCode(VALID_MODULE_BOB).build();
+
+    private static final Tutorial TUTORIAL_AMY = new TutorialBuilder().withModCode(VALID_MODULE_AMY)
             .withTutName(VALID_TUTORIAL_NAME_AMY).build();
-    public static final Tutorial TUTORIAL_BOB = new TutorialBuilder().withModCode(VALID_MODULE_BOB)
+    private static final Tutorial TUTORIAL_BOB = new TutorialBuilder().withModCode(VALID_MODULE_BOB)
             .withTutName(VALID_TUTORIAL_NAME_BOB).build();
+
     private static final Student AMY = TypicalStudents.AMY;
     private static final Student BOB = TypicalStudents.BOB;
 
@@ -87,6 +90,34 @@ public class PartialInputParserTest {
         List<String> expectedCompletions = new ArrayList<>(Arrays.asList(
                 AMY.getName().toString(),
                 BOB.getName().toString()));
+
+        PartialInput expectedPartialInput = new PartialInput(partialInputString,
+                "", expectedCompletions);
+
+        assertEquals(expectedPartialInput, actualPartialInput);
+    }
+
+    @Test
+    public void autocomplete_noNameSuggestionsFound_emptySuggestedCompletions() throws ParseException {
+        String partialInputString = "someCommand m/OW1010 tn/Heroes n/Cathy";
+        PartialInput actualPartialInput = PartialInputParser.parse(partialInputString, model);
+
+        List<String> expectedCompletions = new ArrayList<>();
+
+        PartialInput expectedPartialInput = new PartialInput(partialInputString,
+                "Cathy", expectedCompletions);
+
+        assertEquals(expectedPartialInput, actualPartialInput);
+    }
+
+    @Test
+    public void autocomplete_multipleTutNameSuggestions_completionSuggested() throws ParseException {
+        String partialInputString = "someCommand tn/";
+        PartialInput actualPartialInput = PartialInputParser.parse(partialInputString, model);
+
+        List<String> expectedCompletions = new ArrayList<>(Arrays.asList(
+                AMY.getTutName().toString(),
+                BOB.getTutName().toString()));
 
         PartialInput expectedPartialInput = new PartialInput(partialInputString,
                 "", expectedCompletions);

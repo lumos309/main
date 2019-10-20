@@ -27,7 +27,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import seedu.tarence.commons.core.GuiSettings;
 import seedu.tarence.commons.core.LogsCenter;
-import seedu.tarence.logic.AutocompleteHandler;
 import seedu.tarence.logic.Logic;
 import seedu.tarence.logic.commands.CommandResult;
 import seedu.tarence.logic.commands.exceptions.CommandException;
@@ -325,9 +324,9 @@ public class MainWindow extends UiPart<Stage> {
      */
     private CommandResult executeAutocomplete(String partialInput) throws CommandException, ParseException {
         try {
-            AutocompleteHandler.AutocompleteData autocompleteData = logic.autocomplete(partialInput);
-            resultDisplay.setFeedbackToUser(autocompleteData.autocompleteText);
-            commandBox.setInput(autocompleteData);
+            String autocompletedString = logic.autocomplete(partialInput);
+            resultDisplay.setFeedbackToUser(autocompletedString);
+            commandBox.setInput(autocompletedString);
             return new CommandResult("");
         } catch (Exception e) {
             resultDisplay.setFeedbackToUser(e.getMessage());
