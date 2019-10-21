@@ -131,7 +131,7 @@ public class MarkAttendanceCommand extends Command {
                     targetModCode.get(), targetTutName.get(), targetStudName.get(), model);
         }
 
-        model.setAttendance(targetTutorial, week, targetStudent);
+        targetTutorial.setAttendance(week, targetStudent);
 
         String isPresent = targetTutorial.getAttendance().isPresent(week, targetStudent) ? "present" : "absent";
         return new CommandResult(String.format(MESSAGE_MARK_ATTENDANCE_SUCCESS,
@@ -202,8 +202,8 @@ public class MarkAttendanceCommand extends Command {
      * @return string representing the generated suggestions and their corresponding indexes for user selection.
      */
     private String createSuggestedClassCommands(List<ModCode> similarModCodes, ModCode originalModCode,
-                                           List<TutName> similarTutNames, TutName originalTutName,
-                                           Optional<Name> studName, Model model) {
+                                                List<TutName> similarTutNames, TutName originalTutName,
+                                                Optional<Name> studName, Model model) {
         List<Command> suggestedCommands = new ArrayList<>();
         StringBuilder s = new StringBuilder();
         int index = 1;

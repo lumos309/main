@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import seedu.tarence.logic.commands.AddModuleCommand;
 import seedu.tarence.logic.commands.AddStudentCommand;
 import seedu.tarence.logic.commands.AddTutorialCommand;
+import seedu.tarence.logic.commands.ChangeTabCommand;
 import seedu.tarence.logic.commands.Command;
 import seedu.tarence.logic.commands.ConfirmNoCommand;
 import seedu.tarence.logic.commands.ConfirmYesCommand;
@@ -24,6 +25,8 @@ import seedu.tarence.logic.commands.HelpCommand;
 import seedu.tarence.logic.commands.ListCommand;
 import seedu.tarence.logic.commands.MarkAttendanceCommand;
 import seedu.tarence.logic.commands.SelectSuggestionCommand;
+import seedu.tarence.logic.commands.assignment.AddAssignmentCommand;
+import seedu.tarence.logic.commands.assignment.DeleteAssignmentCommand;
 import seedu.tarence.logic.parser.exceptions.ParseException;
 import seedu.tarence.model.Model;
 
@@ -87,6 +90,12 @@ public class ApplicationParser {
             return new ExportAttendanceCommandParser().parse(arguments);
         } else if (DisplayAttendanceCommand.isMatchingCommandWord(commandWord)) {
             return new DisplayAttendanceCommandParser().parse(arguments);
+        } else if (AddAssignmentCommand.isMatchingCommandWord(commandWord)) {
+            return new AddAssignmentCommandParser().parse(arguments);
+        } else if (DeleteAssignmentCommand.isMatchingCommandWord(commandWord)) {
+            return new DeleteAssignmentCommandParser().parse(arguments);
+        } else if (ChangeTabCommand.isMatchingCommandWord(commandWord)) {
+            return new ChangeTabCommand(arguments);
         } else {
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }
