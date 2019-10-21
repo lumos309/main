@@ -166,7 +166,17 @@ A new `SelectSuggestionCommand` is used to represent the user's selection. Unlik
 
 Autocorrect is restricted to input fields that are not strictly numerical, since it makes no sense to correct, for example, index or time inputs.
 
-Below is an activity diagram showing the creation of suggested autocorrect commands.
+Below is an activity diagram showing the creation of suggested autocorrect commands when a command is executed.
+
+image::AutocorrectActivityCreate.png[]
+
+The suggested commands are presented to the user, each tagged with an index number. The user is prompted to select one option by entering its corresponding number.
+
+image::AutocorrectActivityExecute.png[]
+
+When a valid option is selected, the `execute()` method in `SelectSuggestionCommand` retrieves the specified command, then calls its `execute()` method. The sequence diagram below illustrates the full process.
+
+image::AutocorrectSequence.png[]
 
 // tag::undoredo[]
 === [Proposed] Undo/Redo feature
