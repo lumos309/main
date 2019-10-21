@@ -174,7 +174,7 @@ The suggested commands are presented to the user, each tagged with an index numb
 
 image::AutocorrectActivityExecute.png[]
 
-When a valid option is selected, the `execute()` method in `SelectSuggestionCommand` retrieves the specified command, then calls its `execute()` method. The sequence diagram below illustrates the full process.
+When a valid option is selected, the `execute()` method in `SelectSuggestionCommand` retrieves the specified command, then calls its `execute()` method. The sequence diagram below illustrates a sample run of the program where `AddStudentCommand`s are being autocorrected.
 
 image::AutocorrectSequence.png[]
 
