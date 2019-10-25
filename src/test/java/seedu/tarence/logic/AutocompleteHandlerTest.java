@@ -22,11 +22,11 @@ import seedu.tarence.testutil.TypicalStudents;
 
 class AutocompleteHandlerTest {
 
-    private AutocompleteHandler autocompleteHandler;
+    public static final Student AMY = TypicalStudents.AMY;
+    public static final Student ALICE = TypicalStudents.ALICE;
+    public static final Student BOB = TypicalStudents.BOB;
 
-    private final Student AMY = TypicalStudents.AMY;
-    private final Student ALICE = TypicalStudents.ALICE;
-    private final Student BOB = TypicalStudents.BOB;
+    private AutocompleteHandler autocompleteHandler;
 
     @BeforeEach
     void setup() {
