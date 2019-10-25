@@ -275,6 +275,28 @@ class ModelStub implements Model {
     public void setInputChangedToFalse() {}
 
     @Override
+    public void saveInput(String input) {};
+
+    @Override
+    public List<String> getInputHistory() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public int getInputHistoryIndex() {
+        return 0;
+    }
+
+    @Override
+    public void incrementInputHistoryIndex() {}
+
+    @Override
+    public void decrementInputHistoryIndex() {}
+
+    @Override
+    public void resetInputHistoryIndex() {}
+
+    @Override
     public boolean hasInputChanged() {
         return false;
     }
