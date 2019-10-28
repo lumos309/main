@@ -92,7 +92,7 @@ The `UI` component,
 === Logic component
 
 [[fig-LogicClassDiagram]]
-.Structure of the Logic Component (for regular commands Only)
+.Structure of the Logic Component (for regular commands only)
 image::LogicRegularCommandClassDiagram.png[]
 
 *API* :
