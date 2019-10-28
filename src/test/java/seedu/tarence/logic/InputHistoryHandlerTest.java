@@ -8,14 +8,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import seedu.tarence.logic.commands.Command;
 import seedu.tarence.logic.commands.ModelStub;
-import seedu.tarence.logic.parser.PartialInput;
-import seedu.tarence.model.module.Module;
-import seedu.tarence.model.student.Student;
-import seedu.tarence.model.tutorial.Tutorial;
 
 class InputHistoryHandlerTest {
 
@@ -53,7 +46,6 @@ class InputHistoryHandlerTest {
         List<String> inputHistory = new ArrayList<>();
         boolean isInputChanged = true;
         private int inputHistoryIndex = 0;
-
 
         @Override
         public void setInputChangedToTrue() {
