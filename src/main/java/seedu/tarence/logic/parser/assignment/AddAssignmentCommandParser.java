@@ -58,7 +58,7 @@ public class AddAssignmentCommandParser implements Parser<AddAssignmentCommand> 
         Integer maxScore;
         try {
             maxScore = Integer.parseInt(argMultimap.getValue(PREFIX_SCORE).get());
-            if (maxScore <= 0) {
+            if (maxScore < 0) {
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
