@@ -18,14 +18,14 @@ import java.text.SimpleDateFormat;
 import org.junit.jupiter.api.Test;
 
 import seedu.tarence.commons.core.index.Index;
-import seedu.tarence.logic.commands.assignment.AddAssignmentCommand;
-import seedu.tarence.logic.parser.assignment.AddAssignmentCommandParser;
+import seedu.tarence.logic.commands.assignment.DeleteAssignmentCommand;
+import seedu.tarence.logic.parser.assignment.DeleteAssignmentCommandParser;
 import seedu.tarence.model.module.ModCode;
 import seedu.tarence.model.tutorial.Assignment;
 import seedu.tarence.model.tutorial.TutName;
 import seedu.tarence.model.tutorial.Tutorial;
 
-public class AddAssignmentCommandParserTest {
+public class DeleteAssignmentCommandParserTest {
 
     public static final String VALID_ASSIGN_NAME = "Assignment 1";
     public static final String VALID_END_DATE = "10-10-11 1000";
@@ -50,15 +50,15 @@ public class AddAssignmentCommandParserTest {
     public static final String INVALID_SCORE_DESC_NON_NUMBER = " " + PREFIX_SCORE + "abcde";
     public static final String INVALID_START_DATE_DESC = " " + PREFIX_START_DATE + "some random string";
 
-    private AddAssignmentCommandParser parser = new AddAssignmentCommandParser();
+    private DeleteAssignmentCommandParser parser = new DeleteAssignmentCommandParser();
 
     private SimpleDateFormat dateFormatter = new SimpleDateFormat(Tutorial.DATE_FORMAT);
 
     @Test
-    void parse_validIndex_returnsAddCommand() throws ParseException {
+    void parse_validTutorialIndex_returnsAddCommand() throws ParseException {
         assertParseSuccess(parser, INDEX_DESC + ASSIGN_NAME_DESC + SCORE_DESC + START_DATE_DESC + END_DATE_DESC,
-                new AddAssignmentCommand(null, null, Index.fromOneBased(VALID_INDEX),
-                        VALID_ASSIGN_NAME, VALID_SCORE,
+                new DeleteAssignmentCommand(null, null, Index.fromOneBased(VALID_INDEX),
+                        null, VALID_ASSIGN_NAME, VALID_SCORE,
                         dateFormatter.parse(VALID_START_DATE), dateFormatter.parse(VALID_END_DATE)));
     }
 
@@ -66,42 +66,56 @@ public class AddAssignmentCommandParserTest {
     void parse_validTutNameAndModCode_returnsAddCommand() throws ParseException {
         assertParseSuccess(parser,
                 TUT_NAME_DESC + MOD_CODE_DESC + ASSIGN_NAME_DESC + SCORE_DESC + START_DATE_DESC + END_DATE_DESC,
-                new AddAssignmentCommand(new ModCode(VALID_MOD_CODE), new TutName(VALID_TUT_NAME), null,
-                        VALID_ASSIGN_NAME, VALID_SCORE,
+                new DeleteAssignmentCommand(new ModCode(VALID_MOD_CODE), new TutName(VALID_TUT_NAME), null,
+                        null, VALID_ASSIGN_NAME, VALID_SCORE,
                         dateFormatter.parse(VALID_START_DATE), dateFormatter.parse(VALID_END_DATE)));
     }
 
     @Test
-    void parse_invalidIndex_throwsParseException() {
-        assertParseFailure(parser, INVALID_INDEX_DESC + ASSIGN_NAME_DESC + SCORE_DESC + START_DATE_DESC + END_DATE_DESC,
+    void parse_validAssignIndex_returnsAddCommand() {
+        assertParseSuccess(parser,
+                INDEX_DESC + INDEX_DESC,
+                new DeleteAssignmentCommand(null, null, Index.fromOneBased(VALID_INDEX),
+                        Index.fromOneBased(VALID_INDEX), null, null, null, null));
+    }
+
+    @Test
+    void parse_invalidTutIndex_throwsParseException() {
+        assertParseFailure(parser, INVALID_INDEX_DESC + INDEX_DESC,
+                MESSAGE_INVALID_INDEX);
+    }
+
+    @Test
+    void parse_invalidAssignIndex_throwsParseException() {
+        assertParseFailure(parser, INDEX_DESC + INVALID_INDEX_DESC,
                 MESSAGE_INVALID_INDEX);
     }
 
     @Test
     void parse_invalidDateFormat_throwsParseException() {
-        assertParseFailure(parser, INDEX_DESC + ASSIGN_NAME_DESC + SCORE_DESC
-                        + INVALID_START_DATE_DESC + END_DATE_DESC,
+        assertParseFailure(parser, TUT_NAME_DESC + MOD_CODE_DESC + ASSIGN_NAME_DESC + SCORE_DESC
+                + INVALID_START_DATE_DESC + END_DATE_DESC,
                 Assignment.MESSAGE_CONSTRAINTS_START_END_DATE);
     }
 
     @Test
     void parse_negativeScore_throwsParseException() {
-        assertParseFailure(parser, INDEX_DESC + ASSIGN_NAME_DESC + INVALID_SCORE_DESC_NEGATIVE
+        assertParseFailure(parser, TUT_NAME_DESC + MOD_CODE_DESC + ASSIGN_NAME_DESC + INVALID_SCORE_DESC_NEGATIVE
                         + START_DATE_DESC + END_DATE_DESC,
                 Assignment.MESSAGE_CONSTRAINTS_MAX_SCORE);
     }
 
     @Test
     void parse_nonNumberScore_throwsParseException() {
-        assertParseFailure(parser, INDEX_DESC + ASSIGN_NAME_DESC + INVALID_SCORE_DESC_NON_NUMBER
+        assertParseFailure(parser, TUT_NAME_DESC + MOD_CODE_DESC + ASSIGN_NAME_DESC + INVALID_SCORE_DESC_NON_NUMBER
                         + START_DATE_DESC + END_DATE_DESC,
                 Assignment.MESSAGE_CONSTRAINTS_MAX_SCORE);
     }
 
     @Test
     void parse_missingArgs_throwsParseException() {
-        assertParseFailure(parser, INDEX_DESC + ASSIGN_NAME_DESC + START_DATE_DESC + END_DATE_DESC,
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddAssignmentCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, INDEX_DESC,
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteAssignmentCommand.MESSAGE_USAGE));
     }
 
 
