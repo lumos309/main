@@ -162,29 +162,39 @@ public class Finder {
      * @return
      */
     public List<String> autocompleteCommandWord (String partialCommand) {
-        // for matching file names of Command classes, excluding the abstract Command.java itself
-        Pattern commandClassPattern = Pattern.compile("[a-zA-Z]+Command\\.java");
-        // for excluding all "Verified" commands as these are not standalone commands and have no command word
-        Pattern verifiedCommandNamePattern = Pattern.compile("[a-zA-Z]+Verified");
-        // list of other, non-standalone commands to not suggest to user
-        List<String> excludedCommands = Arrays.asList("ConfirmNo", "ConfirmYes", "SelectSuggestion", "Display");
 
-        Path path = Paths.get("src/main/java/seedu/tarence/logic/commands");
-        try {
-            return Files.list(path)
-                    .filter(currPath -> !Files.isDirectory(currPath))
-                    .filter(file -> commandClassPattern.matcher(file.toString()).find())
-                    .map(file -> file.getFileName().toString())
-                    .map(file -> file.substring(0, file.indexOf("Command.java")))
-                    .filter(file -> !verifiedCommandNamePattern.matcher(file).find())
-                    .filter(file -> !excludedCommands.contains(file))
-                    .filter(file -> file.toLowerCase().startsWith(partialCommand.strip().toLowerCase()))
-                    .map(file -> file.substring(0, 1).toLowerCase() + file.substring(1))
-                    .collect(Collectors.toList());
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        return excludedCommands;
+//        // for matching file names of Command classes, excluding the abstract Command.java itself
+//        Pattern commandClassPattern = Pattern.compile("[a-zA-Z]+Command\\.java");
+//        // for excluding all "Verified" commands as these are not standalone commands and have no command word
+//        Pattern verifiedCommandNamePattern = Pattern.compile("[a-zA-Z]+Verified");
+//        // list of other, non-standalone commands to not suggest to user
+//        List<String> excludedCommands = Arrays.asList("ConfirmNo", "ConfirmYes", "SelectSuggestion");
+//
+//        Path path = Paths.get("src/main/java/seedu/tarence/logic/commands");
+//        try {
+//            return Files.list(path)
+//                    .filter(currPath -> !Files.isDirectory(currPath))
+//                    .filter(file -> commandClassPattern.matcher(file.toString()).find())
+//                    .map(file -> file.getFileName().toString())
+//                    .map(file -> file.substring(0, file.indexOf("Command.java")))
+//                    .filter(file -> !verifiedCommandNamePattern.matcher(file).find())
+//                    .filter(file -> !excludedCommands.contains(file))
+//                    .filter(file -> file.toLowerCase().startsWith(partialCommand.strip().toLowerCase()))
+//                    .map(file -> file.substring(0, 1).toLowerCase() + file.substring(1))
+//                    .collect(Collectors.toList());
+//        } catch (IOException e) {
+//            System.out.println(e);
+//        }
+
+        return Stream.of("addAssignment", "addEvent", "addModule", "addStudent", "addTutorial", "changeTab",
+                "deleteAssignment", "deleteEvent", "deleteModule", "deleteStudent", "deleteTutorial",
+                "displayAssignmentScore", "displayAttendance", "display", "edit", "editEvent", "exit",
+                "exportAttendance", "find", "help", "import", "list", "listEvents", "markAttendance",
+                "setAssignmentScore", "setSemStart")
+                .filter(command -> command.toLowerCase().startsWith(partialCommand.strip().toLowerCase()))
+                .collect(Collectors.toList());
+
+        //return excludedCommands;
     }
 
 }
