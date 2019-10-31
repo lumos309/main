@@ -67,12 +67,12 @@ public class CommandBox extends UiPart<Region> {
         Font.loadFont(MainApp.class.getResource("/fonts/RobotoMono-Light.ttf").toExternalForm(), 12);
         Font.loadFont(MainApp.class.getResource("/fonts/RobotoMono-Thin.ttf").toExternalForm(), 12);
         commandTextField.prefColumnCountProperty().bind(commandTextField.textProperty().length());
-        commandTextField.setMinWidth(15); // to make the field clickable
-        commandTextField.setPadding(new Insets(5.0, 0.0, 5.0, 15.0));
+        commandTextField.setMinWidth(10.0); // to make the field clickable
+        commandTextField.setPadding(new Insets(5.0, 0.0, 5.0, 10.0));
 
         commandTextField.setAlignment(BASELINE_RIGHT);
 
-        autocompleteTextBox.setFill(Color.LIGHTGRAY);
+        autocompleteTextBox.setFill(Color.GRAY);
 
         commandTextFlow.getChildren().set(1, autocompleteTextBox);
     }
