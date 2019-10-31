@@ -2,10 +2,6 @@ package seedu.tarence.ui;
 
 import static javafx.geometry.Pos.BASELINE_RIGHT;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -45,8 +41,6 @@ public class CommandBox extends UiPart<Region> {
     @FXML
     private Text autocompleteTextBox;
 
-    Font robotoMonoFont;
-
     public CommandBox(CommandExecutor commandExecutor, CommandExecutor autocompleteExecutor,
                       CommandExecutor nextSuggestionExecutor,
                       CommandExecutor inputChangedExecutor, CommandExecutor pastInputExecutor) {
@@ -67,12 +61,10 @@ public class CommandBox extends UiPart<Region> {
             }
         });
 
-        Font robotoMonoFont = Font.loadFont(MainApp.class.getResource("/fonts/RobotoMono-Light.ttf").toExternalForm(), 12);
-        System.out.println(robotoMonoFont.getName());
+        Font.loadFont(MainApp.class.getResource("/fonts/RobotoMono-Light.ttf").toExternalForm(), 12);
         commandTextField.prefColumnCountProperty().bind(commandTextField.textProperty().length());
         commandTextField.setPadding(new Insets(5.0, 0.0, 5.0, 0.0));
         commandTextField.setAlignment(BASELINE_RIGHT);
-        //commandTextField.setStyle("-fx-font-family: 'Roboto Mono Light'");
 
         autocompleteTextBox.setFill(Color.LIGHTGRAY);
 
