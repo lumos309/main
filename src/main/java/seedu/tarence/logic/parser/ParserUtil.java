@@ -257,7 +257,8 @@ public class ParserUtil {
         try {
             week = new Week(Integer.parseInt(weekNumber));
         } catch (NumberFormatException e) {
-            throw new ParseException("Invalid week description entered. Must be 'even', 'odd', or 'every week'.");
+            throw new ParseException("Invalid weeks input. Must be 'even', 'odd', or 'every week', "
+                    + "or numbers separated by commas.");
         } catch (IllegalArgumentException e) {
             throw new ParseException("Invalid week number(s) entered. Should contain only numbers from 1 to 13.");
         }
