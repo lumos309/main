@@ -27,13 +27,13 @@ public class CommandBox extends UiPart<Region> {
     public static final String ERROR_STYLE_CLASS = "error";
     private static final String FXML = "CommandBox.fxml";
 
-    private final CommandExecutor commandExecutor;
-    private final CommandExecutor autocompleteExecutor;
-    private final CommandExecutor nextSuggestionExecutor;
-    private final CommandExecutor inputChangedExecutor;
-    private final CommandExecutor pastInputExecutor;
-    private final CommandExecutor inputFieldFocusExecutor;
-    private final CommandExecutor scrollPanelExecutor;
+    private final InputExecutor commandExecutor;
+    private final InputExecutor autocompleteExecutor;
+    private final InputExecutor nextSuggestionExecutor;
+    private final InputExecutor inputChangedExecutor;
+    private final InputExecutor pastInputExecutor;
+    private final InputExecutor inputFieldFocusExecutor;
+    private final InputExecutor scrollPanelExecutor;
 
     @FXML
     private TextField commandTextField;
@@ -44,10 +44,10 @@ public class CommandBox extends UiPart<Region> {
     @FXML
     private Text autocompleteTextBox;
 
-    public CommandBox(CommandExecutor commandExecutor, CommandExecutor autocompleteExecutor,
-                      CommandExecutor nextSuggestionExecutor,
-                      CommandExecutor inputChangedExecutor, CommandExecutor pastInputExecutor,
-                      CommandExecutor inputFieldFocusExecutor, CommandExecutor scrollPanelExecutor) {
+    public CommandBox(InputExecutor commandExecutor, InputExecutor autocompleteExecutor,
+                      InputExecutor nextSuggestionExecutor,
+                      InputExecutor inputChangedExecutor, InputExecutor pastInputExecutor,
+                      InputExecutor inputFieldFocusExecutor, InputExecutor scrollPanelExecutor) {
         super(FXML);
         this.commandExecutor = commandExecutor;
         this.autocompleteExecutor = autocompleteExecutor;
@@ -245,9 +245,9 @@ public class CommandBox extends UiPart<Region> {
      * Represents a function that can execute commands.
      */
     @FunctionalInterface
-    public interface CommandExecutor {
+    public interface InputExecutor {
         /**
-         * Executes the command and returns the result.
+         * Executes an action based on the user's input and returns the result.
          *
          * @see seedu.tarence.logic.Logic#execute(String)
          */
