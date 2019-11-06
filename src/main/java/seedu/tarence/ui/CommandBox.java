@@ -191,15 +191,10 @@ public class CommandBox extends UiPart<Region> {
             handleNextSuggestion();
         } else if (keyEvent.getCode().equals(KeyCode.UP) || keyEvent.getCode().equals(KeyCode.DOWN)) {
             handlePastInput(keyEvent.getCode());
-        } else if (keyEvent.getCode().equals(KeyCode.BACK_SPACE)
-            || keyEvent.getCode().equals(KeyCode.DELETE)) {
+        } else if (keyEvent.getCode().equals(KeyCode.BACK_SPACE)) {
             commandTextField.setAlignment(BASELINE_LEFT);
-//            int pos = commandTextField.getCaretPosition();
-//            commandTextField.positionCaret(commandTextField.getText().length());
-//            commandTextField.positionCaret(pos);
         } else {
             commandTextField.setAlignment(BASELINE_RIGHT);
-            //handleOtherInput();
         }
 
     }
