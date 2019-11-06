@@ -74,7 +74,10 @@ public class Student extends Person {
         boolean hasSameClass = otherStudent.getTutName().equals(getTutName())
                 && otherStudent.getModCode().equals(getModCode());
 
-        return ((hasSameEmail || hasSameMatNo || hasSameNusId) && hasSameClass);
+        return (((hasSameEmail || hasSameMatNo || hasSameNusId) && hasSameClass)
+                || (hasSameEmail && (!hasSameMatNo || !hasSameNusId))
+                || (hasSameMatNo && !hasSameEmail)
+                || (hasSameNusId && !hasSameEmail));
     }
 
     /**
