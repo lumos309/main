@@ -3,16 +3,16 @@ package seedu.tarence.logic.commands.event;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.tarence.commons.core.Messages.MESSAGE_INVALID_TUTORIAL_IN_MODULE;
 import static seedu.tarence.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.tarence.logic.commands.event.AddEventCommand.MESSAGE_ADD_EVENT_SUCCESS;
+import static seedu.tarence.logic.commands.event.ListEventsCommand.MESSAGE_LIST_EVENT_SUCCESS;
 import static seedu.tarence.testutil.Assert.assertThrows;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
@@ -26,10 +26,11 @@ import seedu.tarence.model.builder.ModuleBuilder;
 import seedu.tarence.model.builder.TutorialBuilder;
 import seedu.tarence.model.module.ModCode;
 import seedu.tarence.model.module.Module;
+import seedu.tarence.model.tutorial.Event;
 import seedu.tarence.model.tutorial.TutName;
 import seedu.tarence.model.tutorial.Tutorial;
 
-public class AddEventCommandTest {
+public class ListEventsCommandTest {
 
     public static final String VALID_MOD_CODE = "ES1601";
     public static final String SIMILAR_MOD_CODE = "ES1602";
@@ -37,70 +38,65 @@ public class AddEventCommandTest {
     public static final String VALID_TUT_NAME = "T02";
     public static final String VALID_START_DATE = "01-01-2020 0000";
     public static final String VALID_END_DATE = "31-12-2020 2359";
-    public static final String VALID_EVENT_NAME = "Consultation";
+    public static final String VALID_EVENT_NAME = "Consultation one";
+    public static final String VALID_START_DATE_TWO = "01-01-2020 0100";
+    public static final String VALID_END_DATE_TWO = "31-12-2020 2259";
+    public static final String VALID_EVENT_NAME_TWO = "Consultation two";
 
-    private SimpleDateFormat dateFormatter = new SimpleDateFormat(Tutorial.DATE_FORMAT);
+    private static ModelStubEventCommand model = new ModelStubEventCommand();
+    private static SimpleDateFormat dateFormatter = new SimpleDateFormat(Tutorial.DATE_FORMAT);
+    private static Tutorial validTutorial;
+    private static Module validModule;
+    private static Event eventOne;
+    private static Event eventTwo;
 
-    @Test
-    void execute_eventAcceptedByTutorial_addSuccessful() throws ParseException, CommandException {
-        ModelStubEventCommand model = new ModelStubEventCommand();
-
-        Tutorial validTutorial = new TutorialBuilder().build();
+    @BeforeAll
+    static void setup() throws ParseException {
+        validTutorial = new TutorialBuilder().withModCode(VALID_MOD_CODE).withTutName(VALID_TUT_NAME).build();
+        eventOne = new Event(VALID_EVENT_NAME,
+                dateFormatter.parse(VALID_START_DATE), dateFormatter.parse(VALID_END_DATE));
+        eventTwo = new Event(VALID_EVENT_NAME_TWO,
+                dateFormatter.parse(VALID_START_DATE_TWO), dateFormatter.parse(VALID_END_DATE_TWO));
+        validTutorial.addEvent(eventOne);
+        validTutorial.addEvent(eventTwo);
         model.addTutorial(validTutorial);
 
-        Date startDate = dateFormatter.parse(VALID_START_DATE);
-        Date endDate = dateFormatter.parse(VALID_END_DATE);
-
-        AddEventCommand addEventCommand = new AddEventCommand(validTutorial.getModCode(), validTutorial.getTutName(),
-                null, VALID_EVENT_NAME, startDate, endDate);
-
-        CommandResult expectedCommandResult = new CommandResult(
-                String.format(MESSAGE_ADD_EVENT_SUCCESS, VALID_EVENT_NAME));
-
-        assertEquals(expectedCommandResult, addEventCommand.execute(model));
-    }
-
-    @Test
-    void execute_invalidTutorial_throwsCommandException() throws ParseException {
-        ModelStubEventCommand model = new ModelStubEventCommand();
-
-        Tutorial validTutorial = new TutorialBuilder().withModCode(VALID_MOD_CODE).build();
-        model.addTutorial(validTutorial);
-
-        Date startDate = dateFormatter.parse(VALID_START_DATE);
-        Date endDate = dateFormatter.parse(VALID_END_DATE);
-
-        AddEventCommand addEventCommand = new AddEventCommand(new ModCode(OTHER_MOD_CODE), validTutorial.getTutName(),
-                null, VALID_EVENT_NAME, startDate, endDate);
-
-        assertThrows(CommandException.class,
-                MESSAGE_INVALID_TUTORIAL_IN_MODULE, () -> addEventCommand.execute(model));
-    }
-
-    @Test
-    void execute_similarTutorial_suggestSimilarCommands() throws ParseException, CommandException {
-        ModelStubEventCommand model = new ModelStubEventCommand();
-
-        Tutorial validTutorial = new TutorialBuilder().withModCode(VALID_MOD_CODE).build();
-        Module validModule = new ModuleBuilder().withModCode(VALID_MOD_CODE).build();
-        model.addTutorial(validTutorial);
+        validModule = new ModuleBuilder().withModCode(VALID_MOD_CODE).build();
         model.addModule(validModule);
         validModule.addTutorial(validTutorial);
+    }
 
-        Date startDate = dateFormatter.parse(VALID_START_DATE);
-        Date endDate = dateFormatter.parse(VALID_END_DATE);
+    @Test
+    void execute_validTutorial_displayEvents() throws CommandException {
+        ListEventsCommand listEventsCommand = new ListEventsCommand(new ModCode(VALID_MOD_CODE),
+                new TutName(VALID_TUT_NAME), null);
 
-        AddEventCommand addEventCommand = new AddEventCommand(new ModCode(SIMILAR_MOD_CODE), validTutorial.getTutName(),
-                null, VALID_EVENT_NAME, startDate, endDate);
+        String expectedMessage = String.format(MESSAGE_LIST_EVENT_SUCCESS, 0, VALID_TUT_NAME, VALID_MOD_CODE) + "\n"
+                + "1. " + eventOne + "\n"
+                + "2. " + eventTwo + "\n";
 
-        AddEventCommand suggestedCommand = new AddEventCommand(new ModCode(VALID_MOD_CODE), validTutorial.getTutName(),
-                null, VALID_EVENT_NAME, startDate, endDate);
+        assertEquals(new CommandResult(expectedMessage), listEventsCommand.execute(model));
+    }
+
+    @Test
+    void execute_invalidTutorial_throwsCommandException() {
+        ListEventsCommand listEventsCommand = new ListEventsCommand(new ModCode(OTHER_MOD_CODE),
+                new TutName(VALID_TUT_NAME), null);
+
+        assertThrows(CommandException.class,
+                MESSAGE_INVALID_TUTORIAL_IN_MODULE, () -> listEventsCommand.execute(model));
+    }
+
+    @Test
+    void execute_similarTutorial_suggestSimilarCommands() throws CommandException {
+        ListEventsCommand listEventsCommand = new ListEventsCommand(new ModCode(SIMILAR_MOD_CODE),
+                new TutName(VALID_TUT_NAME), null);
+
         String expectedMessage = String.format(Messages.MESSAGE_SUGGESTED_CORRECTIONS, "Tutorial",
                 SIMILAR_MOD_CODE + " " + validTutorial.getTutName())
                 + "1. " + VALID_MOD_CODE + ", " + validTutorial.getTutName() + "\n";
 
-        assertEquals(new CommandResult(expectedMessage), addEventCommand.execute(model));
-        assertEquals(List.of(suggestedCommand), model.getSuggestedCommands());
+        assertEquals(new CommandResult(expectedMessage), listEventsCommand.execute(model));
     }
 
     private static class ModelStubEventCommand extends ModelStub {
