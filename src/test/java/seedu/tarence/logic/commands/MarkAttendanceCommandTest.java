@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.tarence.commons.core.Messages.MESSAGE_MULTIPLE_OF_SAME_NAME;
 import static seedu.tarence.commons.core.Messages.MESSAGE_SUGGESTED_CORRECTIONS;
 import static seedu.tarence.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.tarence.logic.commands.MarkAttendanceCommand.MESSAGE_CONFIRM_MARK_ATTENDANCE_OF_STUDENT;
@@ -196,6 +197,51 @@ public class MarkAttendanceCommandTest {
 
         assertEquals(String.format(MESSAGE_SUGGESTED_CORRECTIONS, "Student",
                 VALID_STUD_NAME) + "1. " + SIMILAR_STUD_NAME + "\n",
+                commandResult.getFeedbackToUser());
+    }
+
+    @Test
+    public void execute_multipleStudentsSameName_promptSelectStudent() throws Exception {
+        ModelStubAcceptingStudentAdded modelStub = new ModelStubAcceptingStudentAdded();
+
+        final Module validModule = new ModuleBuilder().withModCode(VALID_MOD_CODE).build();
+        final Student studentOne = new StudentBuilder()
+                .withModCode(VALID_MOD_CODE)
+                .withTutName(VALID_TUT_NAME)
+                .withName(VALID_STUD_NAME)
+                .withEmail("studentOne@gmail.com")
+                .build();
+        final Student studentTwo = new StudentBuilder()
+                .withModCode(VALID_MOD_CODE)
+                .withTutName(VALID_TUT_NAME)
+                .withName(VALID_STUD_NAME)
+                .withEmail("studentTwo@gmail.com")
+                .build();
+        final Tutorial validTutorial = new TutorialBuilder()
+                .withModCode(VALID_MOD_CODE)
+                .withTutName(VALID_TUT_NAME)
+                .withStudents(new ArrayList<>())
+                .build();
+        modelStub.addModule(validModule);
+        modelStub.addTutorial(validTutorial);
+        modelStub.addTutorialToModule(validTutorial);
+        modelStub.addStudent(studentOne);
+        modelStub.addStudentToTutorial(studentOne);
+        modelStub.addStudent(studentTwo);
+        modelStub.addStudentToTutorial(studentTwo);
+
+        final ModCode validModCode = new ModCode(VALID_MOD_CODE);
+        final TutName validTutName = new TutName(VALID_TUT_NAME);
+        final Week validWeek = new Week(3);
+        final Name validStudName = studentOne.getName();
+        MarkAttendanceCommand markAttendanceCommand = new MarkAttendanceCommand(
+                validModCode, validTutName, null, validWeek, validStudName);
+
+        CommandResult commandResult = markAttendanceCommand.execute(modelStub);
+
+        assertEquals(String.format(MESSAGE_MULTIPLE_OF_SAME_NAME, studentOne.getName())
+                        + "1. " + studentOne + "\n"
+                        + "2. " + studentTwo + "\n",
                 commandResult.getFeedbackToUser());
     }
 
