@@ -53,22 +53,20 @@ public class MarkAttendanceVerifiedCommandTest {
         modelStub.addTutorial(validTutorial);
         modelStub.addTutorialToModule(validTutorial);
 
-        final ModCode validModCode = new ModCode(VALID_MOD_CODE);
-        final TutName validTutName = new TutName(VALID_TUT_NAME);
         final Week validWeek = new Week(3);
         final Name validStudName = validStudent.getName();
 
         // Mark attendance to flip from absent to present
-        CommandResult commandResult = new MarkAttendanceCommand(validModCode, validTutName, null, validWeek,
-                validStudName).execute(modelStub);
+        CommandResult commandResult = new MarkAttendanceVerifiedCommand(validTutorial, validWeek,
+                validStudent).execute(modelStub);
 
         assertEquals(String.format(MarkAttendanceCommand.MESSAGE_MARK_ATTENDANCE_SUCCESS, validStudName, "present"),
                 commandResult.getFeedbackToUser());
         assertTrue(validTutorial.getAttendance().isPresent(validWeek, validStudent));
 
         // Mark again to flip from present to absent
-        commandResult = new MarkAttendanceCommand(validModCode, validTutName, null, validWeek,
-                validStudName).execute(modelStub);
+        commandResult = new MarkAttendanceVerifiedCommand(validTutorial, validWeek,
+                validStudent).execute(modelStub);
 
         assertEquals(String.format(MarkAttendanceCommand.MESSAGE_MARK_ATTENDANCE_SUCCESS, validStudName, "absent"),
                 commandResult.getFeedbackToUser());
