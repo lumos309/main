@@ -16,8 +16,11 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
 import seedu.tarence.logic.parser.exceptions.ParseException;
+import seedu.tarence.model.module.ModCode;
 import seedu.tarence.model.person.Email;
 import seedu.tarence.model.person.Name;
+import seedu.tarence.model.student.MatricNum;
+import seedu.tarence.model.student.NusnetId;
 import seedu.tarence.model.tutorial.Week;
 
 class ParserUtilTest {
@@ -201,5 +204,61 @@ class ParserUtilTest {
     @Test
     void parseLocalTime_invalidInputOutOfRange_throwsParseException() {
         assertThrows(DateTimeParseException.class, () -> ParserUtil.parseLocalTime("2400"));
+    }
+
+    @Test
+    void parseMatricNum_validInput_returnsMatricNum() throws ParseException {
+        String matricNum = "A1234567A";
+        assertEquals(new MatricNum(matricNum), ParserUtil.parseMatricNum(matricNum));
+    }
+
+    @Test
+    void parseMatricNum_invalidInputWrongLength_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseMatricNum("A12345678A"));
+    }
+
+    @Test
+    void parseMatricNum_invalidInputWrongFormat_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseMatricNum("A123456ZA"));
+    }
+
+    @Test
+    void parseNusnetId_validInput_returnsNusnetId() throws ParseException {
+        String nusnetId = "E0123456";
+        assertEquals(new NusnetId(nusnetId), ParserUtil.parseNusnetId(nusnetId));
+    }
+
+    @Test
+    void parseNusnetId_invalidInputWrongLength_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseNusnetId("E01234567"));
+    }
+
+    @Test
+    void parseNusnetId_invalidInputWrongFormat_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseNusnetId("E012345A"));
+    }
+
+    @Test
+    void parseModCode_validInputTwoLettersNoSuffix_returnsModCode() throws ParseException {
+        String modCode = "AB1234";
+        assertEquals(new ModCode(modCode), ParserUtil.parseModCode(modCode));
+    }
+
+    @Test
+    void parseModCode_validInputThreeLettersNoSuffix_returnsModCode() throws ParseException {
+        String modCode = "ABC1234";
+        assertEquals(new ModCode(modCode), ParserUtil.parseModCode(modCode));
+    }
+
+    @Test
+    void parseModCode_validInputTwoLettersWithSuffix_returnsModCode() throws ParseException {
+        String modCode = "AB1234Z";
+        assertEquals(new ModCode(modCode), ParserUtil.parseModCode(modCode));
+    }
+
+    @Test
+    void parseModCode_validInputThreeLettersWithSuffix_returnsModCode() throws ParseException {
+        String modCode = "ABC1234Z";
+        assertEquals(new ModCode(modCode), ParserUtil.parseModCode(modCode));
     }
 }
