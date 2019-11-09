@@ -6,12 +6,15 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.tarence.commons.core.Messages.MESSAGE_SUGGESTED_CORRECTIONS;
 import static seedu.tarence.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.tarence.logic.commands.MarkAttendanceCommand.MESSAGE_CONFIRM_MARK_ATTENDANCE_OF_STUDENT;
+import static seedu.tarence.logic.commands.MarkAttendanceCommand.MESSAGE_MARK_ATTENDANCE_TUTORIAL;
 import static seedu.tarence.testutil.Assert.assertThrows;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -174,6 +177,7 @@ public class MarkAttendanceCommandTest {
         final Tutorial validTutorial = new TutorialBuilder()
                 .withModCode(VALID_MOD_CODE)
                 .withTutName(VALID_TUT_NAME)
+                .withStudents(new ArrayList<>())
                 .build();
         modelStub.addModule(validModule);
         modelStub.addTutorial(validTutorial);
@@ -207,6 +211,7 @@ public class MarkAttendanceCommandTest {
         final Tutorial validTutorial = new TutorialBuilder()
                 .withModCode(VALID_MOD_CODE)
                 .withTutName(VALID_TUT_NAME)
+                .withStudents(new ArrayList<>())
                 .build();
         modelStub.addModule(validModule);
         modelStub.addTutorial(validTutorial);
@@ -221,6 +226,60 @@ public class MarkAttendanceCommandTest {
 
         assertThrows(CommandException.class,
             Messages.MESSAGE_INVALID_STUDENT_IN_TUTORIAL, () -> markAttendanceCommand.execute(modelStub));
+    }
+
+    @Test
+    public void execute_noStudentsSupplied_storePendingCommands() throws CommandException {
+        ModelStubWithPendingCommands modelStub = new ModelStubWithPendingCommands();
+
+        final Module validModule = new ModuleBuilder().withModCode(VALID_MOD_CODE).build();
+        final Student validStudentOne = new StudentBuilder()
+                .withModCode(VALID_MOD_CODE)
+                .withTutName(VALID_TUT_NAME)
+                .build();
+        final Student validStudentTwo = new StudentBuilder()
+                .withModCode(VALID_MOD_CODE)
+                .withTutName(VALID_TUT_NAME)
+                .withName(VALID_STUD_NAME)
+                .build();
+        final Tutorial validTutorial = new TutorialBuilder()
+                .withModCode(VALID_MOD_CODE)
+                .withTutName(VALID_TUT_NAME)
+                .build();
+        final Week validWeek = new Week(3);
+        modelStub.addModule(validModule);
+        modelStub.addTutorial(validTutorial);
+        modelStub.addTutorialToModule(validTutorial);
+        modelStub.addStudent(validStudentOne);
+        modelStub.addStudentToTutorial(validStudentOne);
+        modelStub.addStudent(validStudentTwo);
+        modelStub.addStudentToTutorial(validStudentTwo);
+        MarkAttendanceCommand markAttendanceCommand = new MarkAttendanceCommand(
+                new ModCode(VALID_MOD_CODE), new TutName(VALID_TUT_NAME), null, validWeek, null);
+
+        CommandResult expectedResult = new CommandResult(
+                String.format(MESSAGE_MARK_ATTENDANCE_TUTORIAL, validTutorial.getTutName()));
+
+        assertEquals(expectedResult, markAttendanceCommand.execute(modelStub));
+
+        Stack<Command> expectedCommandStack = new Stack<>();
+
+        expectedCommandStack.push(
+                new MarkAttendanceVerifiedCommand(validTutorial, validWeek, validStudentTwo));
+        expectedCommandStack.push(
+                new DisplayCommand(
+                        String.format(MESSAGE_CONFIRM_MARK_ATTENDANCE_OF_STUDENT, validStudentTwo.getName())));
+        expectedCommandStack.push(
+                new DisplayAttendanceCommand(validTutorial.getModCode(), validTutorial.getTutName()));
+        expectedCommandStack.push(
+                new MarkAttendanceVerifiedCommand(validTutorial, validWeek, validStudentOne));
+        expectedCommandStack.push(
+                new DisplayCommand(
+                        String.format(MESSAGE_CONFIRM_MARK_ATTENDANCE_OF_STUDENT, validStudentOne.getName())));
+        expectedCommandStack.push(
+                new DisplayAttendanceCommand(validTutorial.getModCode(), validTutorial.getTutName()));
+
+        assertEquals(expectedCommandStack, modelStub.getPendingCommands());
     }
 
     @Test
@@ -687,6 +746,22 @@ public class MarkAttendanceCommandTest {
         @Override
         public ObservableList<Module> getFilteredModuleList() {
             return FXCollections.observableArrayList(modules);
+        }
+    }
+
+    /**
+     * A ModelStub that also stores pending commands.
+     */
+    private class ModelStubWithPendingCommands extends ModelStubAcceptingStudentAdded {
+        private Stack<Command> pendingCommands = new Stack<>();
+
+        @Override
+        public void storePendingCommand(Command command) {
+            pendingCommands.push(command);
+        }
+
+        public Stack<Command> getPendingCommands() {
+            return pendingCommands;
         }
     }
 
