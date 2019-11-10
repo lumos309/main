@@ -73,7 +73,7 @@ public class ExportAttendanceCommandTest {
                 validTutName),
                 commandResult.getFeedbackToUser());
         // TODO: Assert presence of exported file
-     }
+    }
 
     @Test
     public void execute_invalidModule_throwsCommandException() {
