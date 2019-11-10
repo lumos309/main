@@ -61,6 +61,7 @@ public class JsonAdaptedModule {
     public static final String INVALID_FIELD_MESSAGE_FORMAT = "Tutorial's %s field is invalid!";
     public static final String MISSING_GENERIC_FIELD = "Error in reading field! ";
     public static final String INVALID_FIELD = "Invalid field in %s";
+    public static final String MISSING_FIELD_FOR_TUTORIAL_MAP = "Json data has missing fields for tutorial map";
 
     // Json fields
     // Implemented LinkedHashMap to preserve ordering.
@@ -91,42 +92,9 @@ public class JsonAdaptedModule {
      */
     public JsonAdaptedModule(Module source) {
         moduleCode = source.getModCode().toString();
-        tutorialMap = new LinkedHashMap<String, LinkedHashMap<String, String>>();
         semesterStartString = String.valueOf(Module.getSemStart());
+        tutorialMap = JsonUtil.moduleToHashMap(source);
 
-
-        for (Tutorial t : source.getTutorials()) {
-            LinkedHashMap<String, String> singleTutorialMap = new LinkedHashMap<String, String>();
-
-            // Obtain all the fields that defines a single Tutorial object.
-            String tutorialName = t.getTutName().toString();
-            String tutorialDayOfWeek = t.getTimeTable().getDay().toString();
-            String tutorialStartTime = t.getTimeTable().getStartTime().toString();
-            String tutorialWeeks = t.getTimeTable().getWeeks().toString();
-            String tutorialDuration = t.getTimeTable().getDuration().toString();
-            String studentListString = JsonUtil.studentListToString(t.getStudents());
-            String tutorialModuleCode = t.getModCode().toString();
-            String tutorialAttendanceString = JsonUtil.attendanceListToString(t.getAttendance());
-            String tutorialAssignmentString = JsonUtil.assignmentListToString(t.getAssignmentsForSaving());
-
-            // Add into LinkedHashMap<String,String>, singleTutorialMap. Reading is order dependant
-            singleTutorialMap.put(TUTORIAL_NAME, tutorialName);
-            singleTutorialMap.put(TUTORIAL_DAY, tutorialDayOfWeek);
-            singleTutorialMap.put(TUTORIAL_START_TIME, tutorialStartTime);
-            singleTutorialMap.put(TUTORIAL_WEEKS, tutorialWeeks);
-            singleTutorialMap.put(TUTORIAL_DURATION, tutorialDuration);
-            singleTutorialMap.put(TUTORIAL_STUDENT_LIST, studentListString);
-            singleTutorialMap.put(TUTORIAL_ATTENDANCE_LIST, tutorialAttendanceString);
-            singleTutorialMap.put(TUTORIAL_MODULE_CODE, tutorialModuleCode);
-            singleTutorialMap.put(TUTORIAL_ASSIGNMENT_LIST, tutorialAssignmentString);
-
-            // Saving of event(s)
-            String tutorialEventString = JsonUtil.eventListToString(t.getEventListForSaving());
-            singleTutorialMap.put(TUTORIAL_EVENT_LIST, tutorialEventString);
-
-            tutorialMap.put(tutorialName, singleTutorialMap);
-
-        }
     }
 
     /**
@@ -140,8 +108,13 @@ public class JsonAdaptedModule {
         List<Tutorial> tutorials = new ArrayList<Tutorial>();
         try {
             for (String tutorialName : tutorialMap.keySet()) {
+
                 LinkedHashMap<String, String> singleTutorialMap = tutorialMap.get(tutorialName);
-                // TODO: Check if singleTutorialMap is valid ie contains all the requires params
+
+                if (!JsonUtil.isValidTutorialMap(singleTutorialMap)) {
+                    throw new IllegalValueException(MISSING_FIELD_FOR_TUTORIAL_MAP);
+                }
+
                 Tutorial tutorialFromJson = JsonUtil.tutorialMapToTutorial(singleTutorialMap);
                 tutorials.add(tutorialFromJson);
             }
