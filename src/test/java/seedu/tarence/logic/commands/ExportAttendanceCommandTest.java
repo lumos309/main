@@ -66,12 +66,15 @@ public class ExportAttendanceCommandTest {
         final ModCode validModCode = new ModCode(VALID_MOD_CODE);
         final TutName validTutName = new TutName(VALID_TUT_NAME);
 
-        CommandResult commandResult = new ExportAttendanceCommand(
-                validModCode, validTutName, null, null).execute(modelStub);
-
-        assertEquals(String.format(ExportAttendanceCommand.MESSAGE_EXPORT_ATTENDANCE_SUCCESS,
-                validTutName),
-                commandResult.getFeedbackToUser());
+        try {
+            CommandResult commandResult = new ExportAttendanceCommand(
+                    validModCode, validTutName, null, null).execute(modelStub);
+            assertEquals(String.format(ExportAttendanceCommand.MESSAGE_EXPORT_ATTENDANCE_SUCCESS,
+                    validTutName),
+                    commandResult.getFeedbackToUser());
+        } catch (CommandException e) {
+            assertEquals(e.getMessage(), Messages.MESSAGE_INVALID_FILE);
+        }
         // TODO: Assert presence of exported file
     }
 
