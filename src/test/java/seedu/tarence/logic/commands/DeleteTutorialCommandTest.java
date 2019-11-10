@@ -1,10 +1,12 @@
 package seedu.tarence.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.tarence.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.tarence.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.tarence.testutil.TypicalIndexes.INDEX_FIRST_IN_LIST;
+import static seedu.tarence.testutil.TypicalIndexes.INDEX_SECOND_IN_LIST;
 import static seedu.tarence.testutil.TypicalPersons.getTypicalApplication;
 
 import org.junit.jupiter.api.Test;
@@ -73,6 +75,22 @@ public class DeleteTutorialCommandTest {
         assertEquals(expectedMessage, commandResult.getFeedbackToUser());
     }
 
+    @Test
+    public void execute_validTutNameAndModCode_success() throws CommandException {
+        TutorialBuilder.DEFAULT_STUDENTS.clear();
+        Tutorial tutorialToDelete = new TutorialBuilder().withModCode(VALID_MODCODE).withTutName(VALID_TUTNAME).build();
+        Module moduleContainingTutorial = new ModuleBuilder().withModCode(VALID_MODCODE).build();
+        model.addTutorial(tutorialToDelete);
+        model.addModule(moduleContainingTutorial);
+        model.addTutorialToModule(tutorialToDelete);
+        DeleteTutorialCommand deleteTutorialCommand = new DeleteTutorialCommand(new ModCode(VALID_MODCODE),
+                new TutName(VALID_TUTNAME));
+
+        String expectedMessage = String.format(DeleteTutorialCommand.MESSAGE_DELETE_TUTORIAL_SUCCESS, tutorialToDelete);
+
+        assertEquals(new CommandResult(expectedMessage), deleteTutorialCommand.execute(model));
+    }
+
     /* TODO: implement later?
     @Test
     public void execute_moduleWithTutorials_delayed() {
@@ -121,6 +139,8 @@ public class DeleteTutorialCommandTest {
 
         assertCommandFailure(deleteTutorialCommand, model, Messages.MESSAGE_INVALID_TUTORIAL_IN_APPLICATION);
     }
+
+    */
 
     @Test
     public void equals() {
