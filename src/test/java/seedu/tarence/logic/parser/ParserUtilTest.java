@@ -203,7 +203,7 @@ class ParserUtilTest {
 
     @Test
     void parseLocalTime_invalidInputOutOfRange_throwsParseException() {
-        assertThrows(DateTimeParseException.class, () -> ParserUtil.parseLocalTime("2400"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseLocalTime("2400"));
     }
 
     @Test
