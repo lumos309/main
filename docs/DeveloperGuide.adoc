@@ -70,7 +70,7 @@ The _Sequence Diagram_ below shows how the components interact with each other f
 image::ArchitectureSequenceDiagram.png[]
 
 The sections below give more details of each component.
-
+// tag::ui[]
 [[Design-Ui]]
 === UI component
 
@@ -87,7 +87,7 @@ The `UI` component,
 
 * Executes user commands using the `Logic` component.
 * Listens for changes to `Model` data so that the UI can be updated with the modified data.
-
+// end::ui[]
 // tag::logic[]
 [[Design-Logic]]
 === Logic component
@@ -114,7 +114,7 @@ NOTE: The lifeline for `DeleteCommandParser` should end at the destroy marker (X
 
 Besides these main commands, `Logic` also handles autocorrect and autocomplete functions in response to user input. These are described in sections 3.1 and 3.2 respectively.
 // end::logic[]
-
+// tag::model[]
 [[Design-Model]]
 === Model component
 
@@ -131,7 +131,8 @@ The `Model`,
 * exposes an unmodifiable `ObservableList<Tutorial>` that can be 'observed'
 * exposes an unmodifiable `ObservableList<Module>` that can be 'observed'
 * does not depend on any of the other three components.
-
+// end::model[]
+// tag::storage[]
 [[Design-Storage]]
 === Storage component
 
@@ -159,7 +160,7 @@ correspond to the module object. Ie there are no tutorials or student objects wh
 module object.
 
 Future versions of storage will support saving of Assignment objects.
-
+// end::storage[]
 [[Design-Commons]]
 === Common classes
 
@@ -296,7 +297,7 @@ image::ListCommandActivityDiagram.png[]
 The sequence diagram below shows the interaction with the Logic components as described above.
 
 image::ListCommandSequenceDiagram.png[]
-
+// end::list[]
 // tag::Mark Attendance Feature[]
 === Mark Attendance feature
 
@@ -331,7 +332,7 @@ The sequence diagram below shows the interaction between the Logic componenents 
 image::MarkAttendanceSequenceDiagram.png[]
 
 Entering the input will call the execute() method in LogicManager, which identifies the command as a MarkAttendanceCommand via ApplicationParser.parse(). MarkAttendanceCommand.parse() is then called to parse the input and extract the relevant information (tutorial name, module code, student name) which is used to initialize the MarkAttendanceCommand, which finally modifies the student's attendance when executed.
-
+// end::Mark Attendance Feature[]
 // tag::undoredo[]
 === Undo/Redo feature
 ==== Implementation
@@ -449,7 +450,7 @@ image::UndoRedoState4.png[]
 The following activity diagram summarizes what happens when a user executes a new command:
 
 image::CommitActivityDiagram.png[]
-
+// end::undoredo[]
 ==== Design Considerations
 
 ===== Aspect: How undo & redo executes
@@ -582,7 +583,7 @@ _{More to be added}_
 == Use Cases
 
 (For all use cases below, the *System* is the `T.A.rence application` and the *Actor* is the `TA user`, unless specified otherwise)
-// tag::AddModule[]
+// tag::UseCaseAddModule[]
 [discrete]
 === Use case: New module entry
 *Pre-conditions*: User selects the command to add a new module.
@@ -606,7 +607,7 @@ Use case ends.
 ** 1b1. System shows an error message showing the correct format to add a module.
 +
 User case ends.
-// end::AddModule[]
+// end::UseCaseAddModule[]
 // tag::UseCaseAddTutorial[]
 [discrete]
 === Use case: New tutorial entry
