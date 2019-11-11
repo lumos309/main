@@ -317,7 +317,7 @@ Returns `john` and `John Doe`
 * `find Betsy Tim John` +
 Returns any person having names `Betsy`, `Tim`, or `John`
 // end::FeatureFind[]
-// tag::FeatureDisplayScore
+// tag::FeatureDisplayScore[]
 
 === Display Tutorial Class' Test Results : `displayAssignmentScore`
 
@@ -347,8 +347,8 @@ Command synonyms: `displayscore`, `displayassignment`, `displayassignment`
 * When displaying the graph format, a short lag may follow.
 ****
 ====
-// end::FeatureDisplayScore
-// tag::FeatureDisplayAssignments
+// end::FeatureDisplayScore[]
+// tag::FeatureDisplayAssignments[]
 === Display tutorial class assignments : `displayAssignments`
 
 Allows user to list out existing assignments in a tutorial.
