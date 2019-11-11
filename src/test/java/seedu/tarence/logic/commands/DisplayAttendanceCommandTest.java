@@ -55,7 +55,6 @@ public class DisplayAttendanceCommandTest {
                 displayAttendanceCommandIndex, model, DisplayAttendanceCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
-    // Todo: Fix test
     @Test
     public void execute_similarTutorialName_showSuggestedCommands() throws CommandException {
         model = new ModelManager(getTypicalApplication(), new UserPrefs());
