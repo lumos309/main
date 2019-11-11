@@ -47,6 +47,10 @@ T.A.rence is a module and class management system aimed at teaching assistants (
 
 * Lists of students, tutorials, and modules scrollable using "PageUp" and "PageDown" keys, maintaining CLI-only interaction [https://github.com/AY1920S1-CS2103-T14-2/main/pull/187[PR #187]]
 
+=== Other Contributions
+
+* Tests to sustain codebase integrity, e.g. [https://github.com/AY1920S1-CS2103-T14-2/main/pull/105[PR #105]], [https://github.com/AY1920S1-CS2103-T14-2/main/pull/196[PR #196]]
+
 _All code contributed:
 [link:https://github.com/AY1920S1-CS2103-T14-2/main/commits/master?author=lumos309[Commits]],
 [link:https://github.com/AY1920S1-CS2103-T14-2/main/pulls?utf8=%E2%9C%93&q=is%3Apr+author%3Alumos309+[Pull Requests]],
@@ -61,6 +65,8 @@ _All code contributed:
 |===
 
 * [https://github.com/AY1920S1-CS2103-T14-2/main/blob/master/docs/UserGuide.adoc#enhancements[Enhancements]]
+
+include::../UserGuide.adoc[tag=enhancements]
 
 * Parts of the [https://github.com/AY1920S1-CS2103-T14-2/main/blob/master/docs/UserGuide.adoc#3-features[main features]]
 
