@@ -64,7 +64,7 @@ _All code contributed:
 |_Given below are sections I contributed to the User Guide. They showcase my ability to write documentation targeting end-users._
 |===
 
-* [https://github.com/AY1920S1-CS2103-T14-2/main/blob/master/docs/UserGuide.adoc#enhancements[Enhancements]]
+=== _Enhancements (Autocorrect, Autocomplete, Command History)_
 
 include::../UserGuide.adoc[tag=enhancements]
 
@@ -76,8 +76,24 @@ include::../UserGuide.adoc[tag=enhancements]
 |_Given below are sections I contributed to the Developer Guide. They showcase my ability to write technical documentation and the technical depth of my contributions to the project._
 |===
 
-* System Design: [https://github.com/AY1920S1-CS2103-T14-2/main/blob/master/docs/DeveloperGuide.adoc#Design-Logic[Logic Component]]
+=== _System Design - Logic Component_
 
-* Enhancements: [https://github.com/AY1920S1-CS2103-T14-2/main/blob/master/docs/DeveloperGuide.adoc#autocomplete-feature[Autocomplete]], [https://github.com/AY1920S1-CS2103-T14-2/main/blob/master/docs/DeveloperGuide.adoc#autocorrect-feature[Autocorrect]]
+include::../DeveloperGuide.adoc[tag=logic]
+
+=== _Enhancements - Autocomplete & Autocorrect_
+
+include::../DeveloperGuide.adoc[tag=autocomplete]
+
+include::../DeveloperGuide.adoc[tag=autocorrect]
+
+=== _Use Cases_
+
+include::../DeveloperGuide.adoc[tag=UseCaseAddTutorial]
+
+include::../DeveloperGuide.adoc[tag=UseCaseDeleteTutorial]
+
+include::../DeveloperGuide.adoc[tag=UseCaseAddStudent]
+
+include::../DeveloperGuide.adoc[tag=UseCaseMarkAttendance]
 
 * Parts of [https://github.com/AY1920S1-CS2103-T14-2/main/blob/master/docs/DeveloperGuide.adoc#appendix-c-use-cases[Appendix C: Use Cases]]

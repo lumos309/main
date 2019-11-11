@@ -23,8 +23,6 @@ T.A.rence is *optimized for users who prefer to work with a Command Line Interfa
 while still having the benefits of a Graphical User Interface (GUI).
 If you can type fast, T.A.rence can get your teaching management tasks done faster than traditional GUI apps.
 
-
-
 == Quick Start
 
 .  Ensure you have Java `11` or above installed in your Computer.

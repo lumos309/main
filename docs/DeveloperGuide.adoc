@@ -88,6 +88,7 @@ The `UI` component,
 * Executes user commands using the `Logic` component.
 * Listens for changes to `Model` data so that the UI can be updated with the modified data.
 
+// tag::logic[]
 [[Design-Logic]]
 === Logic component
 
@@ -112,6 +113,7 @@ image::DeleteSequenceDiagram.png[]
 NOTE: The lifeline for `DeleteCommandParser` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
 
 Besides these main commands, `Logic` also handles autocorrect and autocomplete functions in response to user input. These are described in sections 3.1 and 3.2 respectively.
+// end::logic[]
 
 [[Design-Model]]
 === Model component
@@ -255,7 +257,7 @@ When a valid option is selected, the `execute()` method in `SelectSuggestionComm
 image::AutocorrectSequence.png[]
 
 NOTE: The lifelines for `SelectSuggestionCommand` and `AddStudentCommand` should end at their destroy markers (X) but due to a limitation of PlantUML, the lifelines reach the end of diagram.
-
+// end::autocorrect[]
 // tag::autocomplete[]
 === Autocomplete feature
 
@@ -273,7 +275,7 @@ Autocomplete is implemented at the `Parser` level. When the user presses the "TA
 `AutocompleteHandler#handle` is responsible for determining the correct autofilled string. If the user presses "TAB" multiple times successively, it cycles through the available autofill options; otherwise, it gets the list of options from `PartialInputParser` and returns the first one. The activity flow is summarised below:
 
 image::AutocompleteActivity.png[]
-
+// end::autocomplete[]
 // tag::list[]
 === list feature
 
@@ -502,7 +504,7 @@ _{More to be added}_
 == Use Cases
 
 (For all use cases below, the *System* is the `T.A.rence application` and the *Actor* is the `TA user`, unless specified otherwise)
-
+// tag::AddModule[]
 [discrete]
 === Use case: New module entry
 *Pre-conditions*: User selects the command to add a new module.
@@ -526,7 +528,8 @@ Use case ends.
 ** 1b1. System shows an error message showing the correct format to add a module.
 +
 User case ends.
-
+// end::AddModule[]
+// tag::UseCaseAddTutorial[]
 [discrete]
 === Use case: New tutorial entry
 Precondition: User selects the command to add a new tutorial.
@@ -564,7 +567,8 @@ Use case ends.
 ** 1c1. System shows an error message showing the correct format to add a module.
 +
 User case ends.
-
+// end::UseCaseAddTutorial[]
+// tag::UseCaseDeleteTutorial[]
 [discrete]
 === Use case: Deleting tutorials
 *Precondition*: User selects the command to delete a tutorial.
@@ -594,7 +598,8 @@ Use case ends.
 ** 1c2. User confirms the delete action.
 +
 Use case resumes from step 2.
-
+// end::UseCaseDeleteTutorial[]
+// tag::UseCaseAddStudent[]
 [discrete]
 === Use case: New student entry
 *Precondition*: User selects the command to add a new student.
@@ -633,8 +638,8 @@ Use case ends.
 ** 1d1. System shows an error message showing the correct format to add a module.
 +
 User case ends.
-
-
+// end::UseCaseAddStudent[]
+// tag::UseCaseEditStudent[]
 [discrete]
 === Use case: Editing a student's particulars
 *Precondition*: User selects the command to edit a student.
@@ -658,8 +663,8 @@ Use case ends.
 ** 1b1. System shows an error message showing the correct format to add a module.
 +
 User case ends.
-
-
+// end::UseCaseEditStudent[]
+// tag::UseCaseDeleteStudent[]
 [discrete]
 === Use case: Deleting a student
 *Preconditions:*
@@ -686,7 +691,8 @@ Use case ends.
 ** 1b1. System shows an error message showing the correct format to add a module.
 +
 User case ends.
-
+// end::UseCaseDeleteStudent[]
+// tag::UseCaseListStudents[]
 [discrete]
 === Use case: Listing students
 *Preconditions:*
@@ -713,7 +719,8 @@ User case ends
 ** 1b1. System shows an error message showing the correct format to add a module.
 +
 User case ends.
-
+// end::UseCaseListStudents[]
+// tag::UseCaseMarkAttendance[]
 [discrete]
 === Use case: Mark class attendance.
 *Preconditions:*
@@ -744,8 +751,8 @@ Use case ends.
 ** 1b1. System shows an error message showing the correct format to add a module.
 +
 User case ends.
-
-
+// end::UseCaseMarkAttendance[]
+// tag::UseCaseAddHours[]
 [discrete]
 === Use case: Adding in hours clocked.
 *Preconditions:*
@@ -778,7 +785,8 @@ Use case ends.
 ** 1c1. System shows an error message showing the correct format to add a module.
 +
 User case ends.
-
+// end::UseCaseAddHours[]
+// tag::UseCaseAddViewAssignScore[]
 === Use case: Adding and viewing assignment score to students
 *Preconditions*
 
@@ -802,6 +810,7 @@ User case ends.
 ** Steps 2-2a2 are repeated for all invalid students.
 +
 Use case resumes at step 2
+// end::UseCaseAddViewAssignScore[]
 
 _{More to be added soon. Stay tuned!}_
 
